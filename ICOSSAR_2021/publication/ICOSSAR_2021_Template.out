@@ -1,0 +1,28 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Motivation}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Problem Definition}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.3}{Justification and Objectives}{section.1}% 4
+\BOOKMARK [1][-]{section.2}{Background}{}% 5
+\BOOKMARK [2][-]{subsection.2.1}{Exact Solvers}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.2}{Probabilistic Solvers}{section.2}% 7
+\BOOKMARK [1][-]{section.3}{Tensor Network Contraction \(TNC\) Introductions}{}% 8
+\BOOKMARK [2][-]{subsection.3.1}{Definitions}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.2}{Graph Representation}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.3}{Contraction Ordering}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.4}{All Terminal Reliability Formulation}{section.3}% 12
+\BOOKMARK [3][-]{subsubsection.3.4.1}{S-T Reliability Formulation}{subsection.3.4}% 13
+\BOOKMARK [2][-]{subsection.3.5}{Tensor Network Contraction \(TNC\) Advantages}{section.3}% 14
+\BOOKMARK [1][-]{section.4}{Results and Discussion}{}% 15
+\BOOKMARK [2][-]{subsection.4.1}{Benchmark Graphs}{section.4}% 16
+\BOOKMARK [2][-]{subsection.4.2}{Grid Graphs}{section.4}% 17
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Grid Graph Computational Time}{subsection.4.2}% 18
+\BOOKMARK [3][-]{subsubsection.4.2.2}{Monte Carlo \(MC\) Comparison}{subsection.4.2}% 19
+\BOOKMARK [2][-]{subsection.4.3}{Random Connected Cubic Graphs}{section.4}% 20
+\BOOKMARK [3][-]{subsubsection.4.3.1}{Random Connected Cubic Graph Computational Time}{subsection.4.3}% 21
+\BOOKMARK [3][-]{subsubsection.4.3.2}{Monte Carlo \(MC\) Comparison}{subsection.4.3}% 22
+\BOOKMARK [2][-]{subsection.4.4}{Power Transmission Grids}{section.4}% 23
+\BOOKMARK [3][-]{subsubsection.4.4.1}{Power Transmission Grid Analysis}{subsection.4.4}% 24
+\BOOKMARK [1][-]{section.5}{Conclusion}{}% 25
+\BOOKMARK [2][-]{subsection.5.1}{Results Summary}{section.5}% 26
+\BOOKMARK [2][-]{subsection.5.2}{Future Work}{section.5}% 27
+\BOOKMARK [1][-]{section.6}{REFERENCES}{}% 28

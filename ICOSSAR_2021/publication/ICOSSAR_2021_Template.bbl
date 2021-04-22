@@ -1,0 +1,187 @@
+\begin{thebibliography}{10}
+
+\bibitem{valiant1979complexity}
+Leslie~G Valiant.
+\newblock The complexity of enumeration and reliability problems.
+\newblock {\em SIAM Journal on Computing}, 8(3):410--421, 1979.
+
+\bibitem{dell2018pace}
+Holger Dell, Christian Komusiewicz, Nimrod Talmon, and Mathias Weller.
+\newblock The pace 2017 parameterized algorithms and computational experiments
+  challenge: The second iteration.
+\newblock In {\em 12th International Symposium on Parameterized and Exact
+  Computation (IPEC 2017)}. Schloss Dagstuhl-Leibniz-Zentrum fuer Informatik,
+  2018.
+
+\bibitem{li2016characterizing}
+Jian Li, Leonardo Due{\~n}as-Osorio, Changkun Chen, Benjamin Berryhill, and
+  Alireza Yazdani.
+\newblock Characterizing the topological and controllability features of us
+  power transmission networks.
+\newblock {\em Physica A: Statistical Mechanics and its Applications},
+  453:84--98, 2016.
+
+\bibitem{levy1967monte}
+Louis~L Levy and Albert~H Moore.
+\newblock A monte carlo technique for obtaining system reliability confidence
+  limits from component test data.
+\newblock {\em IEEE Transactions on Reliability}, 16(2):69--72, 1967.
+
+\bibitem{cotilla2012comparing}
+Eduardo Cotilla-Sanchez, Paul~DH Hines, Clayton Barrows, and Seth Blumsack.
+\newblock Comparing the topological and electrical structure of the north
+  american electric power infrastructure.
+\newblock {\em IEEE Systems Journal}, 6(4):616--626, 2012.
+
+\bibitem{escalera2018survey}
+Alberto Escalera, Barry Hayes, and Milan Prodanovi{\'c}.
+\newblock A survey of reliability assessment techniques for modern distribution
+  networks.
+\newblock {\em Renewable and Sustainable Energy Reviews}, 91:344--357, 2018.
+
+\bibitem{hardy2007k}
+Gary Hardy, Corinne Lucet, and Nikolaos Limnios.
+\newblock K-terminal network reliability measures with binary decision
+  diagrams.
+\newblock {\em IEEE Transactions on Reliability}, 56(3):506--515, 2007.
+
+\bibitem{carlier1996decomposition}
+Jacques Carlier and Corinne Lucet.
+\newblock A decomposition algorithm for network reliability evaluation.
+\newblock {\em Discrete Applied Mathematics}, 65(1-3):141--156, 1996.
+
+\bibitem{berend2010improved}
+Daniel Berend and Tamir Tassa.
+\newblock Improved bounds on bell numbers and on moments of sums of random
+  variables.
+\newblock {\em Probability and Mathematical Statistics}, 30(2):185--205, 2010.
+
+\bibitem{roth1996hardness}
+Dan Roth.
+\newblock On the hardness of approximate reasoning.
+\newblock {\em Artificial Intelligence}, 82(1-2):273--302, 1996.
+
+\bibitem{vaisman2015model}
+Radislav Vaisman, Ofer Strichman, and Ilya Gertsbakh.
+\newblock Model counting of monotone conjunctive normal form formulas with
+  spectra.
+\newblock {\em INFORMS Journal on Computing}, 27(2):406--415, 2015.
+
+\bibitem{sang2005heuristics}
+Tian Sang, Paul Beame, and Henry Kautz.
+\newblock Heuristics for fast exact model counting.
+\newblock In {\em International Conference on Theory and Applications of
+  Satisfiability Testing}, pages 226--240. Springer, 2005.
+
+\bibitem{oztok2015top}
+Umut Oztok and Adnan Darwiche.
+\newblock A top-down compiler for sentential decision diagrams.
+\newblock In {\em Twenty-Fourth International Joint Conference on Artificial
+  Intelligence}, 2015.
+
+\bibitem{lagniez2017improved}
+Jean-Marie Lagniez and Pierre Marquis.
+\newblock An improved decision-dnnf compiler.
+\newblock In {\em IJCAI}, volume~17, pages 667--673, 2017.
+
+\bibitem{venzon1988method}
+DJ~Venzon and SH~Moolgavkar.
+\newblock A method for computing profile-likelihood-based confidence intervals.
+\newblock {\em Journal of the Royal Statistical Society: Series C (Applied
+  Statistics)}, 37(1):87--94, 1988.
+
+\bibitem{karger2001randomized}
+David~R Karger.
+\newblock A randomized fully polynomial time approximation scheme for the
+  all-terminal network reliability problem.
+\newblock {\em SIAM review}, 43(3):499--522, 2001.
+
+\bibitem{IBC_2017}
+International~Code Council.
+\newblock {\em 2018 International Building Code}.
+\newblock International Code Council, 2017.
+
+\bibitem{NRC_2010}
+United States Nuclear~Regulatory Commission.
+\newblock Safety/risk assessment results for generic issue 199, “implications
+  of updated probabilistic seismic hazard estimates in central and eastern
+  united states on existing plants.”, 2010.
+
+\bibitem{paredes2019principled}
+Roger Paredes, Leonardo Due{\~n}as-Osorio, Kuldeep~S Meel, and Moshe~Y Vardi.
+\newblock Principled network reliability approximation: A counting-based
+  approach.
+\newblock {\em Reliability Engineering \& System Safety}, 191:106472, 2019.
+
+\bibitem{pan2020contracting}
+Feng Pan, Pengfei Zhou, Sujie Li, and Pan Zhang.
+\newblock Contracting arbitrary tensor networks: general approximate algorithm
+  and applications in graphical models and quantum circuit simulations.
+\newblock {\em Physical Review Letters}, 125(6):060503, 2020.
+
+\bibitem{biamonte2019lectures}
+Jacob Biamonte.
+\newblock Lectures on quantum tensor networks.
+\newblock {\em arXiv preprint arXiv:1912.10049}, 2019.
+
+\bibitem{markov2008simulating}
+Igor~L Markov and Yaoyun Shi.
+\newblock Simulating quantum computation by contracting tensor networks.
+\newblock {\em SIAM Journal on Computing}, 38(3):963--981, 2008.
+
+\bibitem{dumitrescu2018benchmarking}
+Eugene~F Dumitrescu, Allison~L Fisher, Timothy~D Goodrich, Travis~S Humble,
+  Blair~D Sullivan, and Andrew~L Wright.
+\newblock Benchmarking treewidth as a practical component of tensor network
+  simulations.
+\newblock {\em Plos one}, 13(12):e0207827, 2018.
+
+\bibitem{harvey2018treewidth}
+Daniel~J Harvey and David~R Wood.
+\newblock The treewidth of line graphs.
+\newblock {\em Journal of Combinatorial Theory, Series B}, 132:157--179, 2018.
+
+\bibitem{dudek2019efficient}
+Jeffrey~M Dudek, Leonardo Duenas-Osorio, and Moshe~Y Vardi.
+\newblock Efficient contraction of large tensor networks for weighted model
+  counting through graph decompositions.
+\newblock {\em arXiv preprint arXiv:1908.04381}, 2019.
+
+\bibitem{provan1986complexity}
+J~Scott Provan.
+\newblock The complexity of reliability computations in planar and acyclic
+  graphs.
+\newblock {\em SIAM Journal on Computing}, 15(3):694--702, 1986.
+
+\bibitem{maniu2019experimental}
+Silviu Maniu, Pierre Senellart, and Suraj Jog.
+\newblock An experimental study of the treewidth of real-world graph data.
+\newblock In {\em 22nd International Conference on Database Theory (ICDT
+  2019)}. Schloss Dagstuhl-Leibniz-Zentrum fuer Informatik, 2019.
+
+\bibitem{shooman1991exact}
+Andrew~M Shooman and Aaron Kershenbaum.
+\newblock Exact graph-reduction algorithms for network reliability analysis.
+\newblock In {\em IEEE Global Telecommunications Conference GLOBECOM'91:
+  Countdown to the New Millennium. Conference Record}, pages 1412--1420. IEEE,
+  1991.
+
+\bibitem{feder2006local}
+Tom{\'a}s Feder, Adam Guetz, Milena Mihail, and Amin Saberi.
+\newblock A local switch markov chain on given degree graphs with application
+  in connectivity of peer-to-peer networks.
+\newblock In {\em 2006 47th Annual IEEE Symposium on Foundations of Computer
+  Science (FOCS'06)}, pages 69--76. IEEE, 2006.
+
+\bibitem{fosdick2018configuring}
+Bailey~K Fosdick, Daniel~B Larremore, Joel Nishimura, and Johan Ugander.
+\newblock Configuring random graph models with fixed degree sequences.
+\newblock {\em SIAM Review}, 60(2):315--355, 2018.
+
+\bibitem{mcdiarmid2005random}
+Colin McDiarmid, Angelika Steger, and Dominic~JA Welsh.
+\newblock Random planar graphs.
+\newblock {\em Journal of Combinatorial Theory, Series B}, 93(2):187--205,
+  2005.
+
+\end{thebibliography}

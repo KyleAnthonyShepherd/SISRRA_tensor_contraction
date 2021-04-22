@@ -35,7 +35,7 @@ if __name__ == "__main__":
         packages=[PackageName+'.'+p for p in packages]
         setup(name=PackageName,
               version=version,
-              description='CodeBase for SISRRA projects',
+              description='CodeBase for ICOSSAR_2021',
               url='https://duenas-osorio.rice.edu/sisrra',
               author='Kyle Shepherd',
               author_email='kas20@rice.com',
@@ -50,17 +50,16 @@ if __name__ == "__main__":
         os.chdir('..')
         # result=os.system('pdoc --html --force '+str(PackageName)+' --output-dir '+str(PackageName)+'/documentation')
         result=os.system('pdoc --docformat numpy -o ./'+str(PackageName)+'/documentation ./'+str(PackageName))
-        os.chdir(PackageName)
+        # os.chdir(PackageName)
         if result==1:
             sys.exit('Documentation ERROR')
-        file=open('commit_message','r')
+        file=open(str(PackageName)+'/commit_message','r')
         text=file.read()
         file.close()
         print(text)
         if text!='':
-            os.system('git add .')
+            os.system('git add ./'+str(PackageName))
             os.system('git commit -m "'+str(text)+'"')
-            git commit -m "first push to github"
             os.system('git push -u https://github.com/KyleAnthonyShepherd/SISRRA_tensor_contraction.git main')
         file=open('commit_message','w')
         file.write('')

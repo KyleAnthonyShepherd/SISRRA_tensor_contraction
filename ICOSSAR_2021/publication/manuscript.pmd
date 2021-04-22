@@ -1,0 +1,596 @@
+<!---
+# outline:
+formally describe problem
+explain why hard
+existing solutions
+
+Tensors can do acyclic exactly
+    Detect reverse flow conditions?
+Tensors do overcount in bidirectional (Edge Cover)
+    But tends to overcounts cases with lots of missing edges
+    In highly reliable networks, these cases are heavily discounted
+    Useful because it stats "at most your network is this reliable"
+
+TensorContraction
+
+
+--->
+
+<!---
+python ClosePDF.py "ICOSSAR_2021_Template.pdf" && wsl.exe pandoc --from=markdown --output=manuscript.tex manuscript.pmd --columns=40 --wrap=none && wsl.exe /usr/local/texlive/2018/bin/x86_64-linux/lualatex ICOSSAR_2021_Template.tex && wsl.exe /usr/local/texlive/2018/bin/x86_64-linux/bibtex ICOSSAR_2021_Template && wsl.exe /usr/local/texlive/2018/bin/x86_64-linux/lualatex ICOSSAR_2021_Template.tex && start ICOSSAR_2021_Template.pdf
+--->
+
+<!---
+python ClosePDF.py "ICOSSAR_2021.pdf" && wsl.exe pandoc --from=markdown --output=manuscript.tex manuscript.pmd --columns=40 --wrap=none && wsl.exe /usr/local/texlive/2018/bin/x86_64-linux/lualatex ICOSSAR_2021_Template.tex && wsl.exe /usr/local/texlive/2018/bin/x86_64-linux/bibtex ICOSSAR_2021_Template && wsl.exe /usr/local/texlive/2018/bin/x86_64-linux/flatex ICOSSAR_2021_Template.tex ICOSSAR_2021.tex && wsl.exe /usr/local/texlive/2018/bin/x86_64-linux/lualatex ICOSSAR_2021.tex && wsl.exe /usr/local/texlive/2018/bin/x86_64-linux/lualatex ICOSSAR_2021.tex && start ICOSSAR_2021.pdf
+
+# Gen Diff
+wsl.exe /usr/local/texlive/2018/bin/x86_64-linux/latexdiff ICOSSAR_2021_OLD.tex  ICOSSAR_2021.tex > ICOSSAR_2021_Diff.tex && wsl.exe /usr/local/texlive/2018/bin/x86_64-linux/lualatex ICOSSAR_2021_Diff.tex && start ICOSSAR_2021_Diff.pdf
+
+wsl.exe /usr/local/texlive/2018/bin/x86_64-linux/lualatex ICOSSAR_2021_Template.tex
+--->
+
+<!---
+wsl.exe /usr/local/texlive/2018/bin/x86_64-linux/flatex ICOSSAR_2021_Template.tex Flat.tex
+--->
+
+<!---
+Comment notes:
+The tree decomposition algorithms used in "The pace
+2017 parameterized algorithms and computational
+experiments challenge" are not artificial intelligence powered.
+Based on the template given by ICOSSAR, both their docx and their LaTeX format, the bottom margin is near zero.
+
+<!---
+file:///C:/Users/Kyle%20Shepherd/Downloads/10.1038@s41598-019-48036-0.pdf
+--->
+
+# Introduction
+
+## Motivation
+
+Important ERROR infrastructure systems such as electrical transmission grids, potable water distribution, and roadway transportation have been modeled as networks for analysis and design \cite{levy1967monte} \cite{cotilla2012comparing}. As these networks grow in size and become more complex, such as the addition of distributed power generation and energy storage in electrical networks \cite{escalera2018survey}, better algorithms are needed to analyze these networks and guarantee their safety and reliability. The tensor network contraction (TNC) algorithm we propose in this work is a step in this direction.
+
+## Problem Definition
+
+A network is a graph consisting of vertices that describe a discrete component of the network (such as a power plant or household) and edges that describe a connection between two vertices (such as power lines or water pipes). We will consider a model of a graph $G = (V,E)$ where $V$ is the set of labeled vertices $v_1,...,v_{|V|}$ and $E$ is the set of labeled edges $e_1,...,e_{|E|}$. Each vertex $v_i \in V$ has a list of attributes $[S,T]$. In particular, $v_i.S$, the $S$ attribute of variable $v_i$, is a Boolean variable equal to $True$ if $v_i$ is a source node, and $v_i.T$ is a Boolean variable equal to $True$ if $v_i$ is a terminal node. Each edge $e_i \in E$ has a list of attributes $[v_p,v_s,bi,p]$. In particular, $e_i.v_p$ is the predecessor vertex, $e_i.v_s$ is the successor vertex, $e_i.bi$ is a Boolean variable equal to $True$ if the edge is bidirectional and $False$ if the edge is directed, and $e_i.p$ is the edge reliability.
+
+To measure graph reliability, we define a function $C(G_r)$, where $C(G_r)=1$ if there is a path from a source node to every terminal node for the particular graph realization $G_r$, indicating a Connected graph, and $C(G_r)=0$ otherwise. A graph realization is defined with a vector $r$ of length $|E|$ where $r_i=1$ if $e_i$ exists, and $r_i=0$ otherwise. The probability of a given graph realization is defined below.
+$$P(G_r) = \prod_{i=1}^{|E|} |(1-r_i)-e_i.p|$$
+The set of all possible realization vectors is $R$. This set contains $2^{|E|}$ elements.
+
+Reliability is defined as $Rel(G) = \sum_{r \in R} [C(G_r)*P(G_r)]$. $Rel(G)$ will take on a value between 0 and 1, where a higher $Rel(G)$ is desired in practice.
+
+This model as defined allows us to consider two cases of network reliability that are important for managers of infrastructure systems. All Terminal Reliability is $Rel_{ATR}(G)$ where all edges are bidirectional and all vertices are terminal nodes. Source-Terminal reliability is $Rel_{S-T}(G)$ where all edges are directed, and in general the set of source and terminal nodes is much smaller than the set of vertices. For this work, only one source and one terminal node will be considered for $Rel_{S-T}(G)$ (also known as 2-terminal reliability).
+
+<!-- Algorithmically, one arbitrary source node is chosen, and if a path exists from this arbitrary source node to all other nodes, then the graph is considered to be connected. -->
+
+## Justification and Objectives
+
+As the time to calculate the reliability of a probabilistic graph scales exponentially with the size of the graph \cite{valiant1979complexity}, a naïve brute force enumeration of all graph realizations is not feasible for the large graphs frequently encountered in infrastructure systems. Therefore, different approaches are needed to calculate values of $Rel(G)$.
+
+One approach is to develop an algorithm with parameterized complexity to solve $Rel(G)$. While these algorithms may scale exponentially in the worst case, they may not scale as fast for the problems we are interested in. Another approach is to solve a superset problem of $Rel(G)$. In this work, the edge cover problem will be shown to be a superset problem of $Rel_{ATR}(G)$. While the edge cover problem is still \#P-complete, it is easily formulated as a \#SAT problem to be ingested by many available efficient solvers. A final approach is to give up on obtaining an exact answer and instead obtain an approximate answer for $Rel(G)$ using Monte Carlo (MC) simulation.
+
+The objective of this work is to efficiently calculate values of $Rel(G)$. This work will formulate TNC algorithms for exactly solving $Rel_{S-T}(G)$ when the graph is directed and acyclic, and exactly solving an upper bound for $Rel_{ATR}(G)$ by solving the edge cover problem. These proposed TNC algorithms will be shown to have computational complexity parameterized by the treewidth of the graph. The performance of these algorithms will be tested on grid graphs, random cubic graphs, and a selection of real world transmission graphs.
+
+# Background
+
+## Exact Solvers
+
+This section will provide an overview of exact solvers, discussing their advantages and shortcomings.
+
+#### Binary Decision Diagram Methods \
+
+The current state-of-the-art for exactly solving undirected K-Terminal reliability problems as described by Hardy is using binary decision diagrams \cite{hardy2007k}. These methods consider one edge at a time, factoring the graph into subgraphs. Isomorphic graphs are identified using a method developed by Hardy \cite{carlier1996decomposition}, pruning the number of branches that have to be considered.
+
+However, the pruning is not very efficient. In the worst case for All Terminal Reliability problems, the number of subgraphs to be considered at each step is proportional to $BELL(F)$, where $BELL(n)$ is the $n^{th}$ bell number, and $F$ is the number of nodes in the graph with at least one edge factored and at least one edge not factored. If the optimal edge ordering is used (itself an NP-Complete problem), $F_{max}$ is the linear-width, or pathwidth, of the graph. If the pathwidth of the graph is small, this algorithm is still useful, but $BELL(n)>(\frac{n}{e\ln(n)})^n$ \cite{berend2010improved}, growing faster than $2^n$, so binary decision diagram methods quickly become computationally infeasible.
+
+#### #SAT solvers \
+
+The edge cover problem $Rel_{EC}(G)$ is a superset of $Rel_{ATR}(G)$. We can define
+$$Rel_{EC}(G) = \sum_{r \in R} [EC(G_r)*P(G_r)]$$
+where $EC(G_r)=1$ if every node has at least one existing edge, and $EC(G_r)=0$ otherwise. $Rel_{ATR}(G) \subset Rel_{EC}(G)$ because for every case of $Rel_{ATR}(G)$ every vertex must have at least one existing edge to ensure connectivity, but $Rel_{EC}(G) \not\subset Rel_{ATR}(G)$ because unconnected "islands" of vertices can satisfy $EC(G_r)$ while not satisfying global connectivity for $C(G_r)$.
+
+Rewritten in conjunctive normal form (CNF) as a monotone #SAT problem \cite{roth1996hardness} \cite{vaisman2015model}:
+$$EC(G_r) = \bigwedge_{v_i \in V} (\bigvee_{j \in v_i} e_j(r))$$
+where each vertex $v$ has a set of associated edges $j \in v_i$ if edge $e_j$ has vertex $v_i$ as a predecessor or successor. The function $e_j(r)$ is equal to True if $r_j=1$ for graph realization $r$.
+
+<!-- , $e_j.v_p=v_i$ or $e_j.v_s=v_i$. -->
+
+Out ability to write this problem in CNF form allows it to be solved by powerful existing model counting solvers such as cachet \cite{sang2005heuristics}, miniC2D \cite{oztok2015top}, and d4 \cite{lagniez2017improved}. However, these solvers are considered to be "black-box" solvers, so there is no ability to estimate their computation time for an arbitrary graph $G$. In addition, these solvers are designed for non-monotonic #SAT problems where the ratio of clauses to variables is greater than 1, while the edge cover problems we care about tend to have a clause to variable ratio less than 1 due to each variable only appearing twice. Our proposed TNC algorithm performs well for these monotonic problems with small clause-variable ratios.
+
+## Probabilistic Solvers
+
+This section will provide an overview of probabilistic solvers, discussing their advantages and shortcomings.
+
+#### Monte Carlo (MC) Methods \
+
+If a set of $N$ independent random realizations of a given graph are generated, $G_{rand}$, then $Rel(G)$ can be estimated from this random sample of graphs. $C(G_{rand})$ can be considered to be a Bernoulli process, so MC methods can be used to estimate the expected value which is equal to $Rel(G)$, the $p$ of the Bernoulli process, and provide a confidence interval.
+
+<!-- These graphs can be produced by generating $|E|$ random numbers $RN_i$, where each random number is between 0 and 1, and then setting $r_i=1$ if $RN_i>e_i.p$. This results in a vector $r$ defining the specific random graph realization $G_r$. $N$ of these random graphs can be produced to generate the set $G_{rand}$.
+
+The function $C(G_r)$ can be considered to be a Bernoulli trial due to its binary 1 or 0 outcome. Therefore, $C(G_{rand})$ can be considered to be a Bernoulli process. The Monte Carlo method is searching for the expected value of $C(G_{rand})$, $E(C(G_{rand}))$, which is equal to $Rel(G)$.
+
+-->
+
+Given a specific simulation of $G_{rand}$, the log-likelihood profile of $p$ can be obtained. The most likely value of $p$, $p_{true}$, is obtained by finding the maximum of the profile. To obtain a confidence interval, we can use the profile likelihood method \cite{venzon1988method}. Given any two of confidence region $1-\alpha$, relative error $\epsilon=\frac{p_{true}}{p_{-(1-\alpha)\%}}$, and number of samples $N$, the third value can be calculated. For a given desired $1-\alpha$ and $\epsilon$, the number of needed samples $N$ can be calculated.
+
+<!--The log likelihood of a specific simulation of a Bernoulli process of probability $p$ can be written as:
+$$LL(p)=s*ln(p)+f*ln(1-p)$$
+$$s=\text{number of successes}$$
+$$f=\text{number of failures}$$
+
+For a Bernoulli process, this is simply $\frac{s}{s+f}$.
+-->
+
+For a range of $\epsilon$ values, Figure \ref{fig:MC Trial Graph} shows on a log-log scale how the number of needed MC samples decreases as $p_{true}$ increases. Specifically, if $p_{true}$ increases by a factor of 10, the number of trials needed decreases by a factor of 10 while $p_{true}<0.1$.
+
+\begin{figure}[t]
+\caption{Needed MC Trails for a given $\epsilon$ at a 95\% confidence interval shown on a log-log scale graph: As $p_{true}$ decreases, the number of needed MC trails for a given relative error increases, in an inverse relationship.}
+\label{fig:MC Trial Graph}
+\includegraphics[width=0.5\textwidth]{../figures/MCTrials.png}
+\end{figure}
+
+The advantage of MC Methods is for a desired confidence interval and $\epsilon$ error, the number of samples required is only proportional to $\frac{1}{p_{true}}$ and is not proportional to the problem size. The drawback is that $p_{true}$ is not known ahead of time, so the number of samples required cannot be known ahead of time, requiring the use of stopping rules which may add their own uncertainty. Also, if $p_{true}$ is very small, the number of required samples becomes very large.
+
+#### Fully Polynomial-time Randomized Approximation Scheme (FPRAS) \
+
+From the analysis above, MC methods become infeasible for estimating graph failure rates when $Rel(G)$ is close to 1. In response to this drawback, Karger \cite{karger2001randomized} developed a Fully Polynomial-time Randomized Approximation Scheme (FPRAS) for estimating $(1-Rel_{ATR}(G))$. Overall, when $(1-Rel_{ATR}(G))$ is small enough, Karger showed this algorithm runs in $O(\frac{|E||V|^4}{\epsilon^3}\ln(|V|))$ time.
+
+<!-- In summary, this method enumerates all graph cuts up to size $c$ (a graph cut is a set of edges that disconnects the graph when removed) and proves that graph cuts larger than $c$, where $c$ is the minimum cut of graph $G$, do not significantly contribute to the unreliability of the graph when $(1-Rel_{ATR}(G))$ is small enough. These graph cuts can be formulated in a Disjunctive Normal Form (DNF), and an FPRAS algorithm for this DNF from Karp, Luby, and Madras \cite{karp1989monte} is used to estimate $(1-Rel_{ATR}(G))$. -->
+
+However, the FPRAS algorithm only works when $(1-Rel_{ATR}(G))<|V|^{-4}$. For most engineering applications, the failure chances we care about range from 1% for 50 year earthquake hazards \cite{IBC_2017} to $2.0*10^{-6}$ per year for nuclear power plants \cite{NRC_2010}. Designing for smaller failure rates is impractical due to system measurement uncertainties, model assumptions and approximations, and unknown unknowns that could affect reliability. Therefore, highly reliable engineering networks with more than $(500000)^{\frac{1}{4}} \approx 27$ nodes cannot be practically solved using known FPRAS methods. In addition, this FPRAS algorithm is limited and only works for All-Terminal Reliability. While extensions exist for K-Terminal problems, such as the one developed by Paredes \cite{paredes2019principled} which works well in practical settings, these extensions rely on NP-oracles and therefore have exponential worst case behavior.
+
+Therefore, we desire an approximation algorithm that is not dependent on $Rel(G)$, and is instead parameterized by some other graph property that is small for engineering networks of interest. The following section will show that TNC algorithms fit this desire, being parameterized by the treewidth of a graph, which is usually small and constrained for the almost-planar engineering networks we care about.
+
+# Tensor Network Contraction (TNC) Introductions
+
+## Definitions
+
+The goal of TNC is to write the underlying satisfiability problem as a series of tensor products. Similar techniques have been investigated in the physics community to solve specific quantum mechanics problems \cite{pan2020contracting} \cite{biamonte2019lectures}. Each clause in the satisfiability problem is represented as a tensor $T^c_{x_1,x_2,...,x_n}$. If the variables $x_1,x_2,...,x_n$ satisfy the underlying clause, then $T_{x_1,x_2,...,x_n}=1$. For example, the $T^c$ that encodes the Boolean clause $(x_1 \lor x_2 \lor x_3 \lor x_4)$ is
+\begin{equation*}
+T^c_{x_1,x_2,x_3,x_4}=
+\begin{cases}
+  0, & \text{if}\ x_1=x_2=x_3=x_4=0 \\
+  1, & \text{otherwise}
+\end{cases}
+\end{equation*}
+
+The number of solutions to the satisfiability problem can be calculated by applying the tensor product to every clause tensor $T^c$. The tensor product is defined as
+$$T^p_{x_1,...,x_n,z_1,...,z_n}=T^c_{x_1,...,x_n,y_1,...,y_n} \otimes T^c_{y_1,...,y_n,z_1,...,z_n}$$
+\ten
+$$T^p_{x_1,...,x_n,z_1,...,z_n}=\sum_{y_i \in Y} \sum_{y_i=0}^{|y_i|} T^c_{x_1,...,x_n,y_1,...,y_n} * T^c_{y_1,...,y_n,z_1,...,z_n}$$
+\normalsize
+where $Y$ is the set of all variables in common between the two tensors, and $|y_i|$ is the number of states that variable $y_i$ can take. While $y_i$ can take an arbitrary number of states, the remainder of this work will only consider a Boolean variable.
+
+One complication is a tensor product is only clearly defined if each variable appears exactly once or twice, while in many satisfiability problems a variable can appear more than twice. This complication can be addressed by assigning each $T^c$ a unique set of variables, and then creating additional variable tensors $T^v$ to apply constraints on the variables.
+
+Two common constraints are defined below. To constrain a Boolean variable $x_1$ to take the opposite value of $x_2$ (as might be needed for a Boolean formula containing $x_1$ and $\neg x_1$), the following tensor $T^v_{x_1,x_2}$ is set as
+\begin{equation*}
+T^v_{x_1,x_2}=
+\begin{cases}
+  1, & \text{if}\ x_1=0\ \text{and}\ x_2=1\\
+  1, & \text{if}\ x_1=1\ \text{and}\ x_2=0\\
+  0, & \text{otherwise}
+\end{cases}
+\end{equation*}
+
+<!-- To constrain multiple Boolean variables $(x_1,...,x_n)$ to take the same value at all times (as might be needed for a Boolean formula containing multiple occurrences of a variable), the following tensor $T^v_{x_1,...,x_n}$ is set as
+\begin{equation*}
+T^v_{x_1,...,x_n}=
+\begin{cases}
+  1, & \text{if}\ x_1=1,x_2=1,...,x_n=1 \\
+  1, & \text{if}\ x_1=0,x_2=0,...,x_n=0 \\
+  0, & \text{otherwise}
+\end{cases}
+\end{equation*} -->
+
+To constrain a Boolean variable $x_1$ to take the same value of $x_2$ and apply a probability $p$ of both variables being true, the tensor $T^v_{x_1,x_2}$ is set as
+\begin{equation*}
+T^v_{x_1,x_2}=
+\begin{cases}
+    p, & \text{if}\ x_1=1\ \text{and}\ x_2=1 \\
+    1-p, & \text{if}\ x_1=0\ \text{and}\ x_2=0 \\
+    0, & \text{otherwise}
+\end{cases}
+\end{equation*}
+
+## Graph Representation
+
+Tensor multiplications can be represented as a node and edge graph, $G_T$, where each tensor is a node and each variable is an edge. An example of a tensor graph for the Boolean problem
+\begin{equation*}
+\begin{split}
+& (x_1 \lor x_2 \lor x_3) \land (x_3 \lor x_4 \lor x_5) \land \\
+& (x_2 \lor x_4 \lor x_6 \lor x_7) \land (x_1 \lor x_6) \land (x_5 \lor x_7)
+\end{split}
+\end{equation*}
+can be seen in Figure \ref{fig:Tensor Graph Example}a. A tensor product can be represented as an edge contraction on this graph. The contraction of edge $X_1$ is visually shown in Figure \ref{fig:Tensor Graph Example}b. Once all edges are contacted, only a scalar value remains, counting the number of solutions to the Boolean problem.
+
+\begin{figure}[t]
+\caption{Example Tensor Graph [a] and example tensor contraction of edge $X_1$ [b]}
+\label{fig:Tensor Graph Example}
+\includegraphics[width=0.5\textwidth]{../figures/TensorGraphExample.png}
+\end{figure}
+
+Care must be taken when choosing the order to perform the edge contractions. <!-- If $X$ is the set of variables unique to tensor $T_1$, $Z$ is the set of variables unique to $T_2$, and $Y$ is the set of variables in common between $T_1$ and $T_2$, we can determine how computationally expensive it is to perform the tensor product $T_1 \otimes T_2$ -->
+
+Assuming Boolean variables, the product $T^c_{x_1,...,x_n,y_1,...,y_n} \otimes T^c_{y_1,...,y_n,z_1,...,z_n}$ requires $2^{|x|+|y|+|z|}$ multiplications and additions, and $2^{|x|+|z|}$ numbers need to be stored in memory for the resulting tensor. Therefore, the order in which to perform these edge contractions must be chosen to minimize $|x|$, $|y|$, and $|z|$. Unfortunately, the optimal ordering is determined by treewidth \cite{markov2008simulating}, an NP-complete problem. However, advances in efficient graph tree decomposition approximation algorithms from the recent PACE 2017 challenge \cite{dell2018pace} means a near-optimal edge contraction order can be determined quickly.
+
+<!---
+Counting-based Reliability Estimation for Power-Transmission Grids
+https://www.comp.nus.edu.sg/~meel/Papers/AAAI17.pdf
+--->
+
+## Contraction Ordering
+
+Markov, Igor L and Shi, Yaoyun show how to determine an optimal edge contraction ordering, also known as elimination ordering, from an optimal tree decomposition of the line graph of $G_T$, $LG(G_T)$ \cite{markov2008simulating}. The largest number of variables for a single tensor is the treewidth of $LG(G_T)$. Dumitrescu et al. \cite{dumitrescu2018benchmarking} demonstrate how algorithms from the PACE 2017 challenge \cite{dell2018pace} can be used to obtain better approximate tree decompositions for some tensor graphs representing quantum many body problems.
+
+Harvey, Daniel J and Wood, David R provide a few different upper bounds for the treewidth of $LG(G_T)$, $tw(LG(G_T))$ \cite{harvey2018treewidth}:
+\begin{equation*}
+tw(LG(G_T))<(tw(G_T)+1)*D_m(G_T)-1
+\end{equation*}
+where $D_m(G_T)$ is the maximum degree of graph $G_T$. Dudek et al. \cite{dudek2019efficient} also show how high-rank tensors can be factored into a tensor tree to further minimize memory and computational requirements of the TNC.
+
+<!--
+\begin{equation*}
+\begin{split}
+& tw(LG(G_T))<(tw(G_T)+1)*D_m(G_T)-1 \\
+& \text{if}\ D_m(G_T)<tw(G_T)
+\end{split}
+\end{equation*}
+\begin{equation*}
+\begin{split}
+& tw(LG(G_T))<\frac{2}{3}(tw(G_T)+1)*D_m(G_T)+ \\
+& \frac{1}{3}tw(G_T)^2+ \frac{1}{3}D_m(G_T)-1 \\
+& \text{if}\ D_m(G_T) \geq tw(G_T)
+\end{split}
+\end{equation*}
+
+$$tw(LG(G_T))<(tw(G_T)+1)*D_m(G_T)-1\
+\text{if}\ D_m(G_T)<tw(G_T)$$
+$$tw(LG(G_T))<\frac{2}{3}(tw(G_T)+1)*D_m(G_T)+
+\frac{1}{3}tw(G_T)^2+ \frac{1}{3}D_m(G_T)-1\ \text{if}\ D_m(G_T) \geq tw(G_T)$$ -->
+
+Overall, in the worst case for infrastructure networks with bounded max degree (due to physical limitations), the largest number of variables for a single tensor is linearly proportional to the treewidth of $G_T$. In the following tensor graph formulations for $Rel_{ATR}(G)$ and $Rel_{S-T}(G)$ it is shown that $tw(G_T)$ is equal to the treewidth of the underlying infrastructure graph $G$. Therefore, for each contraction step the computational complexity is at most $2^{C*tw(G)}$, where C is a constant between 1 and $D_m(G_T)$.
+
+## All Terminal Reliability Formulation
+
+For $Rel_{ATR}(G)$ there is no known polynomial sized satisfiability equation, unless auxiliary variables are used \cite{paredes2019principled}. Therefore, a tensor graph for the edge cover problem, $Rel_{EC}(G)$ will be formulated instead. The edge cover problem is satisfied if every node in the graph $G$ has at least one existing edge. Therefore, the clause for a node $n$ with connecting edges $e \in E$ is $(e_1^n \lor e_2^n \lor ... \lor e_i^n)$.
+<!-- and the corresponding clause tensor is.
+\begin{equation*}
+T^c_{e_1^n,e_2^n,...,e_i^n}=
+\begin{cases}
+  0, & \text{if}\ e_1^n=e_2^n=...=e_i^n=0 \\
+  1, & \text{otherwise}
+\end{cases}
+\end{equation*} -->
+
+Each edge $e_i$ has a probability $p$ of existing, and each variable $e_i^n$ takes the same correlated state for every superscript $n$.
+<!-- Therefore, the corresponding variable tensor for edge $e_i$ connected to nodes $n_1$ and $n_2$ is
+\begin{equation*}
+T^v_{e_i^{n_1},e_i^{n_2}}=
+\begin{cases}
+    e_i.p, & \text{if}\ e_i^{n_1}=1\ \text{and}\ e_i^{n_2}=1 \\
+    1-e_i.p, & \text{if}\ e_i^{n_1}=0\ \text{and}\ e_i^{n_2}=0 \\
+    0, & \text{otherwise}
+\end{cases}
+\end{equation*} -->
+
+Contracting the tensor graph $G_T$ of these tensors will yield the probability of a satisfying edge cover for the graph $G$. If every variable tensor is contracted into an adjacent clause tensor, the resulting tensor graph is isomorphic to the underlying graph $G$. Therefore, for this formulation, $tw(G_T)$ is equal to $tw(G)$.
+
+<!-- If every variable tensor $T^v$ is contracted into an adjacent clause tensor $T^c$ -->
+
+### S-T Reliability Formulation
+
+For $Rel_{S-T}(G)$, the problem is satisfied if any inbound edge connected to the terminal node $n_t$ is connected to a "marked" node. A node is marked if any of its inbound edges is connected to a "marked" node or a "source" node. For an acyclic directed network, a node $n_b$ is "marked" if and only if there is a path from the source node to node $n_b$ (This statement does not hold true for graphs with cycles). Even in this restricted case, $Rel_{S-T}(G)$ is still a #P-complete problem \cite{provan1986complexity}.
+
+The clause for the terminal node $n_t$ with inbound edges $e \in E$ is $(e_1^{n_t} \lor e_2^{n_t} \lor ... \lor e_i^{n_t})$.
+ <!-- and the corresponding clause tensor is:
+\begin{equation*}
+T^{c_t}_{e_1^{n_t},e_2^{n_t},...,e_i^{n_t}}=
+\begin{cases}
+  0, & \text{if}\ e_1^{n_t}=e_2^{n_t}=...=e_i^{n_t}=0 \\
+  1, & \text{otherwise}
+\end{cases}
+\end{equation*} -->
+
+For a node between the source and terminal nodes $n_b$ with inbound edges $e \in E$, it must satisfy the following clause:
+\begin{equation*}
+\begin{split}
+& (m_{n_b} \land (e_1^{n_b} \lor ... \lor e_i^{n_b})) \lor \\
+& (\neg m_{n_b} \land \neg (e_1^{n_b} \lor ... \lor e_i^{n_b}))
+\end{split}
+\end{equation*}
+where $m_{n_b}$ is a variable indicating if node $n_b$ is marked.
+<!-- The corresponding clause tensor is
+\begin{equation*}
+\begin{split}
+& T^{c_b}_{m_{n_b},e_1^{n_b},...,e_i^{n_b}}= \\
+& \begin{cases}
+  1, & \text{if}\ m_{n_b}=1\ \text{and not}\ e_1^{n_b}=...=e_i^{n_b}=0 \\
+  1, & \text{if}\ m_{n_b}=0\ \text{and}\ e_1^{n_b}=...=e_i^{n_b}=0 \\
+  0, & \text{otherwise}
+\end{cases}
+\end{split}
+\end{equation*} -->
+
+For each variable $e_i$, it must be constrained to only be True with probability $e_i.p$ when the tail is connected to a "marked" or source node, $m_{n_b}=1$, and always False when the tail is not connected to a "marked" node. Therefore, the corresponding variable tensor for edge $i$ outbound from node $b$ and inbound to node $y$ is:
+\begin{equation*}
+\begin{split}
+& T^{v_e}_{m_{n_{b,y}},e_i^{n_y}}= \\
+& \begin{cases}
+  e_i.p, & \text{if}\ m_{n_{b,y}}=1\ \text{and}\ e_i^{n_y}=1 \\
+  1-e_i.p, & \text{if}\ m_{n_{b,y}}=1\ \text{and}\ e_i^{n_y}=0 \\
+  1, & \text{if}\ m_{n_{b,y}}=0\ \text{and}\ e_i^{n_y}=0 \\
+  0, & \text{if}\ m_{n_{b,y}}=0\ \text{and}\ e_i^{n_y}=1 \\
+\end{cases}
+\end{split}
+\end{equation*}
+
+In addition, the directed "marked" variable $m_{n_{b,y}}$ must be constrained to the same value as $m_{n_b}$.
+<!-- For node $n_b$ with the set of outbound edges $e_y \in E$, the following variable tensor is used:
+\begin{equation*}
+\begin{split}
+& T^{v_m}_{m_{n_b},m_{n_{b,y_1}},...,m_{n_{b,y_i}}}= \\
+& \begin{cases}
+  1, & \text{if}\ m_{n_b}=m_{n_{b,y_1}}=...=m_{n_{b,y_i}}=1 \\
+  1, & \text{if}\ m_{n_b}=m_{n_{b,y_1}}=...=m_{n_{b,y_i}}=0 \\
+  0, & \text{otherwise}
+\end{cases}
+\end{split}
+\end{equation*} -->
+
+Contracting the tensor graph $G_T$ of these tensors will yield the probability of a satisfying path from the source node to the terminal node for the graph $G$. If every variable tensor is contracted into the adjacent clause tensor, the resulting tensor graph is isomorphic to the underlying graph $G$. Therefore, for this formulation, $tw(G_T)$ is equal to $tw(G)$.
+
+<!-- If every variable tensor $T^{v_m}$ is contracted into the adjacent clause tensor $T^{c_b}$, and every variable tensor $T^{v_e}$ is contracted into an adjacent clause tensor, -->
+
+<!-- Include image of Network of interest > Tensor Network -->
+
+## Tensor Network Contraction (TNC) Advantages
+
+In summary, TNC algorithms have many advantages over the previously described exact solvers and probabilistic solvers. The upper bound computational complexity of $2^{C*tw(G)}$ is significantly better than the $BELL(Pathwidth(G))$ of the binary decision diagram methods and the unknown upper bounds of the #SAT methods. This bound is not dependent on $Rel(G)$, so TNCs can solve some highly reliable networks faster than probabilistic solvers. The computational effort of a TNC can be known ahead of time (after the approximate tree decomposition), so reliability engineers can confidently choose the most efficient reliability solver algorithm. In addition, for infrastructure networks of interest, they are usually near-planar, which bounds treewidth to ~$\sqrt{|V|}$, and treewidth is frequently lower than this bound \cite{maniu2019experimental}.
+
+TNCs only require vectorized multiplication and addition operations which are very efficient for CPUs and GPUs to compute, while binary decision diagram methods and #SAT methods require many conditional if-then statements which are more difficult to optimize. While probabilistic solvers are perfectly parallel (each sample can be done on a separate computer), the individual tensor contractions can be broken up and dispatched to multiple parallel computing units.
+
+<!-- While embarrassingly is the term used on wikipedia, perfectly parallel is an equivalent term-->
+
+# Results and Discussion
+
+<!-- https://florian.github.io/reservoir-sampling/ -->
+<!-- https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.138.784&rep=rep1&type=pdf -->
+<!-- https://hal.inria.fr/hal-00990486/document
+Generation of Cubic graphs
+Gunnar Brinkmann, Jan Goedgebeur, Brendan D. Mckay -->
+<!-- https://faculty.math.illinois.edu/~west/regs/graphgen.html -->
+
+## Benchmark Graphs
+
+To evaluate the empirical performance of the proposed TNC algorithm, a few classes of graphs will be considered. The first considered class of graphs are grid graphs. As most infrastructure networks are usually near-planar, grid graphs can be considered as the ideal case of planar graphs and will serve as a useful benchmark.
+
+Second, random connected cubic graphs will be considered. Using a set of reliability preserving transformations \cite{shooman1991exact}, and by splitting high degree nodes into a chain of degree 3 nodes connected by unfailing edges, all graphs can be converted to a cubic graph with equivalent $Rel(G)$. A 1-Flipper Markov Chain Monte Carlo (MCMC) algorithm will be used to uniformly generate these random cubic graphs \cite{feder2006local}. One caveat to this benchmark is that while $Rel(G)$ is a graph invariant, unlabeled graphs are not uniformly sampled. The probability of an unlabeled graph $G_u$ being selected is proportional to $\frac{1}{|Aut|}$ where $|Aut|$ is the number of automorphisms of the graph \cite{fosdick2018configuring}. This means planar graphs \cite{mcdiarmid2005random} and other symmetric graphs will be under sampled.
+
+Third, a collection of 58 US power transmission networks \cite{li2016characterizing} will be considered. These graphs will be reduced using reliability preserving transformations before reliability calculations are performed.
+
+All benchmarks are performed on a Intel Core i7-4810MQ CPU @ 2.90GHz, with 16 GB of RAM. All code is single threaded. The code used to generate these graphs can be seen at this link https://github.com/KyleAnthonyShepherd/SISRRA_tensor_contraction/tree/main/ICOSSAR_2021.
+
+## Grid Graphs
+
+### Grid Graph Computational Time
+
+As seen in Figure \ref{fig:Grid Graph Computational Time}a, as the grid dimension increases, both the number of subgraphs for the binary decision diagram method and the number of floating point operations for the TNC increases exponentially. Figure \ref{fig:Grid Graph Computational Time}b shows the wall clock time taken for each method. In both cases, the slope of the TNC is significantly smaller than the binary decision diagram method, showing significant computational advantages for calculating $EC(G)$ and $Rel_{S-T}(G)$.
+
+<!-- \begin{figure}[t]
+\caption{Computational Complexity and wall clock time for $nxn$ grid graphs}
+\label{fig:Grid Graph Computational Time}
+\includegraphics[width=0.5\textwidth]{figures/GridGraphComputeTime.png}
+\end{figure} -->
+
+Further computational advantages can be seen if one dimension of the grid graph is fixed in size. This dimension will be fixed at 8 nodes, large enough for a non-trivial treewidth size of 8, and small enough to be computed quickly by both methods. As seen in Figure \ref{fig:Grid Graph Computational Time}c, as $n$ increases for the 8xn grids, both the number of subgraphs for the binary decision diagram method and the number of floating point operations for the TNC increases linearly. However, as seen in Figure \ref{fig:Grid Graph Computational Time}d, the wall clock time taken for the binary decision diagram method increases quadratically (because each subgraph needs an $O(|E|)$ connectivity check) while the TNC time only increases linearly (because a floating point operation can be done in $O(1)$ time). For graphs of bounded treewidth, TNCs show significant computational improvement.
+
+\begin{figure}[t]
+\caption{Computational complexity and wall clock time for $nxn$ and $8xn$ grid graphs.}
+\label{fig:Grid Graph Computational Time}
+\includegraphics[width=0.5\textwidth]{../figures/GridGraphComputeTime8.png}
+\end{figure}
+
+### Monte Carlo (MC) Comparison
+
+As the TNC only estimates $Rel_{ATR}(G)$ by calculating $EC(G)$, we can evaluate the quality of this estimate by determining the number of MC trials needed to obtain an estimate of $Rel_{ATR}(G)$ better than $EC(G)$. Using a  95% confidence interval, we can calculate the number of MC trials needed to create a confidence interval that excludes $EC(G)$.
+
+<!-- For an edge failure rate of 0.5, grid graphs become increasingly unreliable as seen in Figure \ref{fig:Grid Graph MC trials}a. As both $Rel_{ATR}(G)$ and $EC(G)$ decrease, more and more MC Trials are needed to rule out $EC(G)$. -->
+
+<!-- For an edge failure rate of 0.1, both $Rel_{ATR}(G)$ and $EC(G)$ are decreasing approximately linearly. In Figure \ref{fig:Grid Graph MC trials}b, there is a slight decrease in the number of needed MC trials as graph size increases above 6. This is due to $Rel_{ATR}(G)$ approaching 0.5, where fewer MC trials are needed to exclude other hypotheses. -->
+
+For an edge failure rate of 0.01, both $Rel_{ATR}(G)$ and $EC(G)$ are approximately constant at 0.9996. Approximately 24 million MC trials are needed to rule out $EC(G)$, and this count is insensitive to the size of the grid. Therefore, for reliable grid graphs, $EC(G)$ is a good estimator.
+
+<!-- Overall, as $Rel_{ATR}(G)$ approaches 0 or 1, $EC(G)$ becomes an increasingly better approximation of $Rel_{ATR}(G)$ for grid graphs.
+
+\begin{figure}[t]
+\caption{Values of $Rel_{ATR}(G)$ and $EC(G)$ for nxn grid graphs, and the number of MC trials needed to $EC(G)$ from the 95\% confidence interval.}
+\label{fig:Grid Graph MC trials}
+\includegraphics[width=0.5\textwidth]{figures/GridGraphMCtrials.png}
+\end{figure} -->
+
+## Random Connected Cubic Graphs
+
+### Random Connected Cubic Graph Computational Time
+
+A random selection of 10000 random connected cubic graphs $G_{rc}$ from node count $|V|=20$ to $|V|=400$ were generated. The treewidth of $G_{rc}$ and the treewidth of $LG(G_{rc})$ were computed using an approximate treewidth solver \cite{dell2018pace} for 6 seconds. The pathwidth of $G_{rc}$ was estimated from the tree decomposition of $G_{rc}$. As seen in Figure \ref{fig:Random Cubic Treewidth}a, there is a linear increase in approximated treewidth as graph size increases.
+
+<!-- A least squares linear fit of the treewidth data results in the equation $TW(G_{rc})=0.155*|V|+1.44$. -->
+
+Figure \ref{fig:Random Cubic Treewidth}b, demonstrates the ratio between $Pathwidth(G_{rc})$ and $tw(G_{rc})$, and $tw(LG(G_{rc}))$ and $tw(G_{rc})$ for each random graph. At low node counts, these ratios are approximately 1.2, while at larger node counts the average ratios asymptotically approach the values $\frac{PATHWIDTH(G_{rc})}{tw(G_{rc})}=1.05$ and $\frac{tw(LG(G_{rc}))}{tw(G_{rc})}=1.6$. Overall, this means calculating $EC(G_{rc})$ and $Rel_{S-T}(G_{rc})$ of random connected cubic graphs of size $|V|$ with tensor methods is $\widetilde{O}(2^{|V|})$.
+
+<!-- $O(2^{0.186*|V|+1.728})$ at smaller $n$ and $O(2^{0.248*|V|+2.31)})$ at larger $n$. -->
+
+\begin{figure}[t]
+\caption{Approximated treewidth, pathwidth, and treewidth of the line graph of $G_{rc}$ for 10000 randomly generated connected cubic graphs $G_{rc}$, and the ratios between these widths.}
+\label{fig:Random Cubic Treewidth}
+\includegraphics[width=0.5\textwidth]{../figures/RcubicWidth.png}
+\end{figure}
+
+### Monte Carlo (MC) Comparison
+
+A random selection of 10000 random connected cubic graphs $G_{rc}$ from node count $|V|=20$ to $|V|=50$ were generated and solved for $EC(G)$ and $Rel_{ATR}(G)$. Each edge had a failure rate of 0.01 to represent a network with high reliability. $EC(G)$ is very tightly constrained, with a standard deviation of $1.1*10^{-12}$ for all |V|, and can be estimated as $EC(G) \approx (1-|V|*0.01^3)$. $Rel_{ATR}(G)$ had greater variance, with a range of [0.92265,0.99998].
+
+<!-- A least squares linear fit to the data shows $avg(Rel_{ATR}(G))=-0.00029678*|V|+1.00$.
+A least squares linear fit to the data shows $std(Rel_{ATR}(G))=0.00023745*|V|-.001$.
+-->
+
+<!-- \begin{figure}
+\caption{Reliability of random cubic graphs of size $|V|$ for edge failure rate 0.01}
+\label{fig:Random Cubic Reliability}
+\includegraphics[width=0.5\textwidth]{figures/RcubicReliability.png}
+\end{figure} -->
+
+For each graph, the number of MC trials needed to rule out the $EC(G)$ value at the 95% confidence interval was calculated. Figure \ref{fig:Random Cubic MC} shows the proportion of cubic graphs that need less than $X$ MC trials to rule out the $EC(G)$ value. For small 20 node graphs, 50% of graphs need more than 1,000,000 MC trials, while only 10% of larger 50 node graphs need more than 1,000,000 MC trials. This means as highly reliable cubic graphs become larger, $EC(G)$ becomes a worse approximation of $Rel_{ATR}(G)$.
+
+\begin{figure}[t]
+\caption{The proportion of randomly generated connected cubic graphs of size |V| that need less than $X$ MC trials of $Rel_{ATR}(G)$ to rule out the estimate from $EC(G)$ at the 95\% confidence level.}
+\label{fig:Random Cubic MC}
+\includegraphics[width=0.5\textwidth]{../figures/RcubicTrials.png}
+\end{figure}
+
+Overall, despite the computational advantages of TNCs, the treewidth of these graphs scales linearly with size, resulting in computational complexity growing exponentially with the size of the graph. In addition, $EC(G)$ as measured by TNCs is a poor approximation for many cubic graphs, only a few MC trials are needed to achieve a better approximation. This approximation becomes worse as the graph size increases.
+
+## Power Transmission Grids
+
+### Power Transmission Grid Analysis
+
+The $Rel_{ATR}(G)$ and $EC(G)$ of 58 transmission power grids \cite{li2016characterizing} were calculated. Table \ref{tab:Power Transmission Grid} shows the node and edge count of these graphs after reliability preserving reductions, and the result of the $Rel_{ATR}(G)$ and $EC(G)$ calculations at edge failure rate 0.5, 0.1 and 0.01. Some graphs were omitted due to trivial structure or inability to compute $Rel_{ATR}(G)$.
+
+Figure \ref{fig:Width Comparison} shows the treewidth and $tw(LG(G))$ of the power grids in relation to the previously analyzed graphs. In general, the treewidth of the power grids is smaller than equal sized cubic graphs, making them very computationally efficient to solve. However, $tw(LG(G))$ of the power grids are significantly greater than their treewidth, comparable to $tw(LG(G_{rc}))$ of equal sized cubic graphs, due to the presence of high degree nodes in the power grids. The tensor factoring techniques in \cite{dudek2019efficient} may reduce these large values of $tw(LG(G))$. Despite this, TNCs still quickly solve $EC(G)$ and $Rel_{S-T}(G)$ of these graphs in comparison to the binary decision diagram techniques.
+
+<!-- Yes, clarified role of MCS comparisons. -->
+
+\begin{figure}[t]
+\caption{Treewidth and $tw(LG(G))$ comparison between grid graphs, random cubic graphs, and power transmission grids.}
+\label{fig:Width Comparison}
+\includegraphics[width=0.5\textwidth]{../figures/WidthCompare.png}
+\end{figure}
+
+When each edge only has a 1% chance of failure, $EC(G)$ is a good approximation for 37 of the power grids as seen in Figure \ref{fig:Power Grid MC}. It would take more than 1,000,000 MC trials to rule out the $EC(G)$ approximation for these graphs. For the largest power grids, only 1,000 MC trials are needed to rule out $EC(G)$.
+
+\begin{figure}[t]
+\caption{Number of MC Trials needed to rule out $EC(G)$ for each power grid at different edge failure rates $p$.}
+\label{fig:Power Grid MC}
+\includegraphics[width=0.5\textwidth]{../figures/PowerGridMC.png}
+\end{figure}
+
+\begin{table*}[ht]
+\centering
+\caption{Power Transmission Network Attributes}
+\label{tab:Power Transmission Grid}
+\newcolumntype{a}{X}
+\newcolumntype{b}{>{\hsize=.33\hsize}X}
+\renewcommand{\arraystretch}{.75}
+\begin{tabularx}{\textwidth}{bbbbbbaaaaaaaa}
+\toprule
+ID & |V| & |E| & TW & PW & LGW & $Rel_{time}$ & $Rel_{0.5}$ & $Rel_{0.1}$ & $Rel_{0.01}$ & $EC_{time}$ & $EC_{0.5}$ & $EC_{0.1}$ & $EC_{0.01}$ \tabularnewline
+\midrule
+1 & 16 & 29 & 4 & 5 & 8 & 0.010632 & 0.12167154 & 0.98957460 & 0.99999087 & 0.010005 & 0.25502051 & 0.99065582 & 0.99999096 \tabularnewline
+2 & 19 & 33 & 4 & 4 & 8 & 0.000885 & 0.05365770 & 0.98211723 & 0.99998379 & 0.001062 & 0.17822816 & 0.98764111 & 0.99998795 \tabularnewline
+3 & 9 & 18 & 5 & 5 & 9 & 0.002180 & 0.42333221 & 0.99636464 & 0.99999694 & 0.001794 & 0.52156830 & 0.99651838 & 0.99999695 \tabularnewline
+4 & 12 & 20 & 4 & 4 & 6 & 0.000278 & 0.12807083 & 0.97834075 & 0.99988980 & 0.000999 & 0.31490231 & 0.99091973 & 0.99999098 \tabularnewline
+5 & 4 & 6 & 4 & 3 & 5 & 0.000000 & 0.59375000 & 0.99581400 & 0.99999597 & 0.000858 & 0.64062500 & 0.99605700 & 0.99999600 \tabularnewline
+6 & 24 & 48 & 5 & 6 & 11 & 0.002992 & 0.06873492 & 0.98659392 & 0.99998786 & 0.002862 & 0.15051040 & 0.98749687 & 0.99998794 \tabularnewline
+7 & 13 & 24 & 5 & 5 & 9 & 0.002329 & 0.19829893 & 0.99110197 & 0.99999191 & 0.001299 & 0.31878930 & 0.99177120 & 0.99999197 \tabularnewline
+8 & 16 & 32 & 5 & 5 & 9 & 0.003005 & 0.16953775 & 0.99180050 & 0.99999289 & 0.001137 & 0.31583457 & 0.99342016 & 0.99999394 \tabularnewline
+9 & 19 & 34 & 4 & 4 & 7 & 0.002344 & 0.05261123 & 0.98166897 & 0.99998374 & 0.002736 & 0.17841807 & 0.98687403 & 0.99998697 \tabularnewline
+10 & 9 & 15 & 4 & 4 & 6 & 0.001999 & 0.27203369 & 0.99197148 & 0.99999289 & 0.000666 & 0.42657471 & 0.99376760 & 0.99999397 \tabularnewline
+11 & 7 & 11 & 4 & 3 & 6 & 0.000996 & 0.34082031 & 0.99218972 & 0.99999290 & 0.000671 & 0.48193359 & 0.99398015 & 0.99999399 \tabularnewline
+12 & 17 & 36 & 6 & 6 & 12 & 0.015384 & 0.22980855 & 0.99329227 & 0.99999393 & 0.001668 & 0.32829193 & 0.99430582 & 0.99999493 \tabularnewline
+13 & 6 & 9 & 4 & 3 & 5 & 0.000333 & 0.38671875 & 0.99237749 & 0.99999291 & 0.000666 & 0.51367188 & 0.99409283 & 0.99999400 \tabularnewline
+14 & 18 & 32 & 4 & 3 & 8 & 0.001662 & 0.05216674 & 0.97114616 & 0.99988185 & 0.002374 & 0.19721385 & 0.98784985 & 0.99998797 \tabularnewline
+15 & 23 & 39 & 6 & 6 & 9 & 0.004699 & 0.02955951 & 0.97957456 & 0.99998174 & 0.002770 & 0.10569971 & 0.98202115 & 0.99998197 \tabularnewline
+16 & 23 & 40 & 5 & 6 & 10 & 0.003317 & 0.02555826 & 0.96167545 & 0.99978280 & 0.002004 & 0.12043086 & 0.98454274 & 0.99998493 \tabularnewline
+17 & 6 & 11 & 4 & 3 & 7 & 0.001016 & 0.55371094 & 0.99753011 & 0.99999796 & 0.000520 & 0.62939453 & 0.99760764 & 0.99999796 \tabularnewline
+18 & 4 & 6 & 4 & 3 & 5 & 0.000993 & 0.59375000 & 0.99581400 & 0.99999597 & 0.000334 & 0.64062500 & 0.99605700 & 0.99999600 \tabularnewline
+19 & 9 & 17 & 4 & 4 & 8 & 0.002996 & 0.36923218 & 0.99458268 & 0.99999496 & 0.001037 & 0.47051239 & 0.99482186 & 0.99999498 \tabularnewline
+20 & 16 & 30 & 5 & 5 & 9 & 0.002176 & 0.14746502 & 0.99081730 & 0.99999189 & 0.002654 & 0.27150461 & 0.99154743 & 0.99999195 \tabularnewline
+21 & 18 & 37 & 5 & 5 & 11 & 0.003842 & 0.16092585 & 0.99022499 & 0.99999092 & 0.003656 & 0.25048232 & 0.99066939 & 0.99999096 \tabularnewline
+22 & 7 & 14 & 5 & 4 & 8 & 0.001331 & 0.55395508 & 0.99764972 & 0.99999797 & 0.001034 & 0.62353516 & 0.99768485 & 0.99999797 \tabularnewline
+23 & 9 & 16 & 4 & 3 & 8 & 0.001000 & 0.31793213 & 0.99331619 & 0.99999393 & 0.001016 & 0.43721008 & 0.99385534 & 0.99999398 \tabularnewline
+24 & 31 & 51 & 5 & 5 & 8 & 0.003453 & 0.00333280 & 0.96024725 & 0.99996437 & 0.002723 & 0.04349889 & 0.97436290 & 0.99997398 \tabularnewline
+25 & 9 & 15 & 4 & 3 & 6 & 0.001000 & 0.25952148 & 0.99102678 & 0.99999189 & 0.000333 & 0.41384888 & 0.99297602 & 0.99999299 \tabularnewline
+26 & 27 & 49 & 5 & 5 & 8 & 0.004730 & 0.01736987 & 0.96797843 & 0.99987974 & 0.001995 & 0.09222602 & 0.98204488 & 0.99998198 \tabularnewline
+27 & 0 & 0 & NA & NA & NA & NA & NA & NA & NA & NA & NA & NA & NA \tabularnewline
+28 & 27 & 47 & 5 & 6 & 9 & 0.003883 & 0.01239560 & 0.97220986 & 0.99997466 & 0.002332 & 0.07123664 & 0.97908383 & 0.99997897 \tabularnewline
+29 & 34 & 71 & 6 & 7 & 15 & 0.034742 & 0.02852902 & 0.98122226 & 0.99998281 & 0.014000 & 0.07020389 & 0.98231394 & 0.99998291 \tabularnewline
+30 & 12 & 23 & 4 & 5 & 10 & 0.001996 & 0.24995208 & 0.99155426 & 0.99999195 & 0.001002 & 0.34471893 & 0.99195646 & 0.99999199 \tabularnewline
+31 & 21 & 37 & 5 & 5 & 8 & 0.004077 & 0.03919450 & 0.97994898 & 0.99998177 & 0.002749 & 0.14345905 & 0.98499664 & 0.99998498 \tabularnewline
+32 & 19 & 33 & 5 & 5 & 10 & 0.005334 & 0.04548891 & 0.96999886 & 0.99988083 & 0.000997 & 0.15963011 & 0.98581925 & 0.99998596 \tabularnewline
+33 & 29 & 60 & 6 & 8 & 13 & 0.032262 & 0.04883569 & 0.98456505 & 0.99998585 & 0.004002 & 0.10738096 & 0.98535319 & 0.99998592 \tabularnewline
+34 & 36 & 70 & 6 & 7 & 12 & 0.029669 & 0.01668428 & 0.97998377 & 0.99998179 & 0.003276 & 0.05712185 & 0.98122264 & 0.99998190 \tabularnewline
+35 & 14 & 25 & 5 & 5 & 9 & 0.004015 & 0.15695018 & 0.98911478 & 0.99998990 & 0.000996 & 0.28797701 & 0.99087288 & 0.99999098 \tabularnewline
+36 & 29 & 56 & 5 & 6 & 10 & 0.008334 & 0.02254811 & 0.97219655 & 0.99988380 & 0.003391 & 0.08928589 & 0.98340645 & 0.99998392 \tabularnewline
+37 & 20 & 38 & 5 & 5 & 9 & 0.001998 & 0.07215021 & 0.98532712 & 0.99998682 & 0.002331 & 0.18448659 & 0.98851388 & 0.99998894 \tabularnewline
+38 & 31 & 64 & 5 & 6 & 9 & 0.003995 & 0.03717040 & 0.98529150 & 0.99998684 & 0.002338 & 0.11263403 & 0.98646343 & 0.99998694 \tabularnewline
+39 & 61 & 124 & 9 & 10 & 18 & 1.977553 & 0.00116882 & 0.95569496 & 0.99986768 & 0.020116 & 0.00951425 & 0.96999788 & 0.99997085 \tabularnewline
+40 & 23 & 43 & 4 & 4 & 9 & 0.004971 & 0.03814892 & 0.98081026 & 0.99998276 & 0.001524 & 0.12076441 & 0.98385333 & 0.99998396 \tabularnewline
+41 & 18 & 32 & 4 & 4 & 8 & 0.002443 & 0.05750333 & 0.96609719 & 0.99978686 & 0.002730 & 0.19745638 & 0.98784986 & 0.99998797 \tabularnewline
+42 & 36 & 68 & 5 & 5 & 14 & 0.008314 & 0.00381684 & 0.81463673 & 0.98037497 & 0.004664 & 0.02868238 & 0.97142746 & 0.99997098 \tabularnewline
+43 & 31 & 58 & 5 & 7 & 11 & 0.038881 & 0.01692225 & 0.97759178 & 0.99997973 & 0.002661 & 0.06477194 & 0.98050149 & 0.99998092 \tabularnewline
+44 & 78 & 150 & 7 & 10 & 17 & 0.620783 & 0.00003289 & 0.93844113 & 0.99994142 & 0.021993 & 0.00077407 & 0.94594519 & 0.99994492 \tabularnewline
+45 & 55 & 102 & 6 & 9 & 11 & 0.118611 & 0.00035646 & 0.94503474 & 0.99985754 & 0.004329 & 0.00611823 & 0.95975279 & 0.99995896 \tabularnewline
+46 & 60 & 116 & 6 & 7 & 16 & 0.127546 & 0.00023098 & 0.92515124 & 0.99965566 & 0.009333 & 0.00335799 & 0.95504980 & 0.99995397 \tabularnewline
+47 & 48 & 86 & 7 & 8 & 12 & 0.097672 & 0.00080723 & 0.95996061 & 0.99996351 & 0.005277 & 0.01131853 & 0.96602777 & 0.99996592 \tabularnewline
+48 & 52 & 97 & 8 & 10 & 18 & 0.579069 & 0.00066992 & 0.93887114 & 0.99975969 & 0.036462 & 0.00760182 & 0.96237592 & 0.99996194 \tabularnewline
+49 & 60 & 111 & 6 & 8 & 13 & 0.187681 & 0.00014183 & 0.93194376 & 0.99975358 & 0.007974 & 0.00387670 & 0.95751108 & 0.99995693 \tabularnewline
+50 & 36 & 74 & 6 & 7 & 14 & 0.098780 & 0.02141654 & 0.97943954 & 0.99998083 & 0.004552 & 0.05905184 & 0.98061142 & 0.99998094 \tabularnewline
+51 & 58 & 123 & 7 & 8 & 18 & 0.445570 & 0.00129092 & 0.96131942 & 0.99996365 & 0.025679 & 0.00715189 & 0.96402050 & 0.99996392 \tabularnewline
+52 & 77 & 146 & 8 & 10 & 20 & 3.130363 & 0.00002134 & 0.76559700 & 0.97996221 & 0.057654 & 0.00090534 & 0.94845804 & 0.99994788 \tabularnewline
+53 & 73 & 122 & 6 & 7 & 13 & 0.178962 & 0.00000214 & 0.89256304 & 0.99962324 & 0.008332 & 0.00057446 & 0.93907596 & 0.99993696 \tabularnewline
+54 & 154 & 301 & 12 & 17 & 24 & NA & NA & NA & NA & NA & NA & NA & NA \tabularnewline
+55 & 208 & 390 & 12 & 14 & 31 & 925.739795 & 0.00000000 & 0.66512161 & 0.97965552 & 62.421209 & 0.00000001 & 0.86434283 & 0.99985575 \tabularnewline
+56 & 184 & 364 & 10 & 14 & 28 & 69.763104 & 0.00000000 & 0.85395647 & 0.99967281 & 9.376411 & 0.00000011 & 0.88667166 & 0.99988172 \tabularnewline
+57 & 233 & 410 & 12 & 17 & 27 & NA & NA & NA & NA & NA & NA & NA & NA \tabularnewline
+58 & 406 & 785 & 10 & 15 & 24 & 373.772984 & 0.00000000 & 0.56241914 & 0.98813658 & 1.324014 & 0.00000000 & 0.74302255 & 0.99970647 \tabularnewline
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+# Conclusion
+
+## Results Summary
+
+Overall, TNCs for solving $Rel_{S-T}(G)$ and estimating $Rel_{ATR}(G)$ demonstrate many computational advantages on many practical networks. These methods are parameterized by the treewidth of the network, so graphs with low treewidth such as grids and the 58 power transmission networks can be quickly solved. In the general case as represented as random cubic graphs, TNCs are not as computationally efficient due to the linear relationship between treewidth and random cubic graph size. In addition, the presence of high degree nodes in the power transmission networks introduces a large constant factor between treewidth and the computationally relevant treewidth of the line graph. Despite these limitations, the tensor methods are still 10 to 100 times faster than the state-of-the-art binary decision diagram methods as measured by wall clock time.
+
+When estimating $Rel_{ATR}(G)$ by calculating $EC(G)$, TNCs show excellent results on grid graphs. As edge failure rate decreases, as is the case for highly reliable networks, $EC(G)$ becomes a better estimator. This increase in estimation accuracy is likely due to the fact that as edge failures become less likely, multiple edge failures needed to disconnect the graph become exponentially less likely, which heavily discounts occurrences of disconnected "islands" of nodes that satisfy $EC(G)$ and do not satisfy $Rel_{ATR}(G)$.
+
+However, $EC(G)$ is only a good estimate for $Rel_{ATR}(G)$ for a small subset of cubic graphs. $EC(G)$ is very constrained for highly reliable graphs, while $Rel_{ATR}(G)$ has greater variance, likely due to topological bottlenecking effects.
+
+For the power transmission networks, $EC(G)$ was a good estimate for 37 out of 55 of the power grids. In these cases, $EC(G)$ provided a tighter bound on $Rel_{ATR}(G)$ than 1,000,000 MC trials. This work did not investigate why $EC(G)$ was a good estimate for these graphs, although it is likely due to the same topological bottlenecking features affecting the accuracy of $EC(G)$ in the cubic graphs.
+
+## Future Work
+
+In relation to algorithm design, the primary bottleneck to TNCs is the memory requirement. Techniques such as sparse arrays, online matrix compression, or tensor factoring can be used to reduce the memory footprint of large tensors. Additionally, many quantum computer algorithms can be described as tensor contractions, so this TNC may be able to exploit quantum computers to achieve a quantum speedup over traditional algorithms.
+
+$EC(G)$ is not always a good approximation for $Rel_{ATR}(G)$. It would be beneficial to classify the graphs where $EC(G)$ is a good approximation of $Rel_{ATR}(G)$. If an algorithm can quickly identify these classes of graphs, then tensor methods can quickly and confidently estimate $Rel_{ATR}(G)$ using $EC(G)$. In addition, determining how to incorporate TNCs with other #SAT solvers into a virtual best solver will greatly expand the classes of graphs where $EC(G)$ can be quickly solved.  
+
+While $Rel_{S-T}(G)$ can be exactly solved by tensor methods for directed acyclic graphs, the introduction of cycles causes drastic multiplicative overcounting of solutions if the given $Rel_{S-T}(G)$ formulation is used. Determining a better tensor graph for solving $Rel_{S-T}(G)$ or determining how to compensate for the multiplicative overcounting can expand the number of graphs that can be exactly solved by TNCs.
+
+<!-- One method to avoid overcounting is to count the number of cycles -->
+
+
+<!-- ## S-T reliability
+
+Consider Corner-To-Corner grid graphs, random cubic graphs, and some selected real world networks. All cases will be constrained to directed acyclic.
+
+Plot of algorithm run time vs graph size -->
+
+<!-- ### highly reliable graphs
+Demonstrate that edge cover overcounts cases with many missing edges, very rare events. So as the graph edges become more reliable, these events become much more rare, and the amount of "overcounting" decreases.
+
+Plot of edge reliability vs $Rel(G)$ + Edge Cover upper bound
+
+Discuss number of monte carlo samples needed to get the calculated Edge Cover upper bound at different confidence levels. -->
+
+
+<!-- Consider grid graphs, random cubic graphs, and some selected real world networks.
+
+Plot of $Rel(G)$ + Edge Cover upper bound vs graph size
+
+Discuss number of monte carlo samples needed to get the calculated Edge Cover upper bound at different confidence levels. -->
+
+<!-- [1]Y. Zhang, R. Zhang, and A. C. Potter, “QED driven QAOA for network-flow optimization,” arXiv:2006.09418 [cond-mat, physics:quant-ph], Jun. 2020, Accessed: Jun. 20, 2020. [Online]. Available: http://arxiv.org/abs/2006.09418.
+-->

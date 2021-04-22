@@ -4055,6 +4055,7 @@ Using tree decomposition algorithms, these functions optimize the edge factor or
 <span class="c1"># pip install wheel</span>
 <span class="c1"># pip install pipreqs</span>
 <span class="c1"># pip install pdoc</span>
+<span class="c1"># git init</span>
 
 <span class="n">PackageName</span><span class="o">=</span><span class="s1">&#39;ICOSSAR_2021&#39;</span>
 <span class="n">pipignore</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;p17&#39;</span><span class="p">]</span>
@@ -4082,7 +4083,7 @@ Using tree decomposition algorithms, these functions optimize the edge factor or
         <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="n">PackageName</span><span class="o">+</span><span class="s1">&#39;.&#39;</span><span class="o">+</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">packages</span><span class="p">]</span>
         <span class="n">setup</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">PackageName</span><span class="p">,</span>
               <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span>
-              <span class="n">description</span><span class="o">=</span><span class="s1">&#39;CodeBase for SISRRA projects&#39;</span><span class="p">,</span>
+              <span class="n">description</span><span class="o">=</span><span class="s1">&#39;CodeBase for ICOSSAR_2021&#39;</span><span class="p">,</span>
               <span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://duenas-osorio.rice.edu/sisrra&#39;</span><span class="p">,</span>
               <span class="n">author</span><span class="o">=</span><span class="s1">&#39;Kyle Shepherd&#39;</span><span class="p">,</span>
               <span class="n">author_email</span><span class="o">=</span><span class="s1">&#39;kas20@rice.com&#39;</span><span class="p">,</span>
@@ -4097,17 +4098,17 @@ Using tree decomposition algorithms, these functions optimize the edge factor or
         <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span>
         <span class="c1"># result=os.system(&#39;pdoc --html --force &#39;+str(PackageName)+&#39; --output-dir &#39;+str(PackageName)+&#39;/documentation&#39;)</span>
         <span class="n">result</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;pdoc --docformat numpy -o ./&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">PackageName</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;/documentation ./&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">PackageName</span><span class="p">))</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">PackageName</span><span class="p">)</span>
+        <span class="c1"># os.chdir(PackageName)</span>
         <span class="k">if</span> <span class="n">result</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s1">&#39;Documentation ERROR&#39;</span><span class="p">)</span>
-        <span class="n">file</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;commit_message&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">PackageName</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;/commit_message&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
         <span class="n">text</span><span class="o">=</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">text</span><span class="o">!=</span><span class="s1">&#39;&#39;</span><span class="p">:</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;git add .&#39;</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;git add ./&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">PackageName</span><span class="p">))</span>
             <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;git commit -m &quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;git push -u https://github.com/KyleAnthonyShepherd/HARVEY.git master&#39;</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;git push -u https://github.com/KyleAnthonyShepherd/SISRRA_tensor_contraction.git main&#39;</span><span class="p">)</span>
         <span class="n">file</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;commit_message&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
         <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
         <span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>

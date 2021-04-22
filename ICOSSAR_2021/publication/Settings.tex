@@ -1,0 +1,124 @@
+% -------------- Packages
+% basic packages and settings - please don't change it
+\usepackage{xfrac}
+\usepackage{abstract}
+\renewcommand{\abstractname}{}    % clear the title
+\renewcommand{\absnamepos}{empty} % originally center
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage{fontspec}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage[fleqn]{amsmath}
+\setlength{\mathindent}{0pt}
+\usepackage{geometry}
+\geometry{
+ a4paper,
+ total={160mm,247mm},
+ left=25mm,
+ right=25mm,
+ top=25mm,
+ bottom=25mm
+}
+\usepackage{mwe}
+\usepackage{afterpage}
+
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{fancyhdr}
+\fancyhf{}
+
+\usepackage{caption}
+\captionsetup[table]{skip=-10pt, font=footnotesize, labelformat=simple}
+\captionsetup[figure]{skip=10pt,font=footnotesize, labelformat=simple}
+
+\usepackage{enumerate}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\usepackage{authblk}
+\renewcommand*{\Authfont}{\twelve}
+\renewcommand*{\Affilfont}{\nine\it\vspace*{-3pt}}
+\setlength{\affilsep}{12pt}
+
+% If no hyphen is allowed
+% \usepackage[none]{hyphenat}
+
+\usepackage{color}
+
+% For the header font type
+% Arial
+\setsansfont[
+ItalicFont=ariali.ttf,
+]{arial.ttf}
+
+\usepackage{fancyhdr}
+% customerized fancyhdr
+\pagestyle{fancy}
+\setlength{\voffset}{-3mm}
+\fancyhead[L]{\includegraphics[height=25mm]{figures/IASSAR_Logo.png}}
+\fancyhead[R]{
+\includegraphics[height=18mm]{figures/ICOSSAR2021_Logo.png}\\
+\vspace*{-10pt}
+\ten
+\color{blue}
+{
+\sffamily
+\textit{
+The 13th International Conference on Structural\\
+Safety and Reliability (ICOSSAR 2021),\\
+June 21-25, 2021, Shanghai, P.R. China\\
+J. Li, Pol D. Spanos, J.B. Chen \& Y.B. Peng (Eds)}
+}
+}
+\renewcommand{\headrulewidth}{0pt}
+\setlength{\headsep}{0pt}
+
+% user required packages or settings
+
+
+\usepackage{booktabs}
+% % \usepackage{capt-of}
+% % \usepackage{ragged2e}
+%
+\usepackage{tabularx}
+%
+% \usepackage{array}
+% \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+% \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+% \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+%
+% \renewcommand{\arraystretch}{1.3}
+% \renewcommand{\floatpagefraction}{1}
+% \renewcommand{\textfraction}{0}
+% \renewcommand{\dbltopfraction }{1}
+% \renewcommand{\topfraction }{1}
+
+% -------------- FontSize --------------
+\newcommand{\seven}{\fontsize{7pt}{\baselineskip}\selectfont}    % 7pt
+\newcommand{\nine}{\fontsize{9pt}{\baselineskip}\selectfont}    % 9pt
+\newcommand{\ten}{\fontsize{10pt}{\baselineskip}\selectfont}    % 10pt
+\newcommand{\twelve}{\fontsize{12pt}{\baselineskip}\selectfont} % 12pt
+\newcommand{\fourt}{\fontsize{14pt}{\baselineskip}\selectfont}  % 14pt
+\newcommand{\sixt}{\fontsize{16pt}{\baselineskip}\selectfont}   % 16pt
+
+
+
+\usepackage{titlesec}
+% Fontsize of sections
+\titleformat{\section}
+	{\fontsize{12}{0}\selectfont}{\thesection}{1em}{\normalfont}
+% Fontsize of subsections
+\titleformat{\subsection}
+	{\fontsize{12}{0}\selectfont}{\thesubsection}{1em}{\itshape}
+% Fontsize of subsubsections
+\titleformat{\subsubsection}
+	{\fontsize{12}{0}\selectfont}{\thesubsubsection}{1em}{\itshape}
+
+\usepackage{etoolbox}
+
+\usepackage{academicons}
+\usepackage{xcolor}
+
+\newcommand{\orcid}[1]{\href{https://orcid.org/#1}{\textcolor[HTML]{A6CE39}{\aiOrcid}}}
+
