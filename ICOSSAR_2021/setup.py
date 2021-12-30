@@ -61,7 +61,7 @@ if __name__ == "__main__":
         if text!='':
             os.system('git add ./'+str(PackageName))
             os.system('git commit -m "'+str(text)+'"')
-            os.system('git push -u https://github.com/KyleAnthonyShepherd/SISRRA_tensor_contraction.git main')
+            os.system('git push -f https://github.com/KyleAnthonyShepherd/SISRRA_tensor_contraction.git main')
         file=open('commit_message','w')
         file.write('')
         file.close()
