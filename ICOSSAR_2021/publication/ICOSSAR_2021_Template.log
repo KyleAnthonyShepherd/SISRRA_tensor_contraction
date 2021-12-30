@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.14.0 (MiKTeX 21.12.10) (format=lualatex 2021.12.29)  30 DEC 2021 15:32
+This is LuaHBTeX, Version 1.14.0 (MiKTeX 21.12.10) (format=lualatex 2021.12.29)  30 DEC 2021 16:27
  restricted system commands enabled.
 **ICOSSAR_2021_template.tex
 (./ICOSSAR_2021_template.tex
@@ -1229,27 +1229,12 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 67.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 67.
+<../figures/MCTrials.png, id=173, 252.945pt x 144.54pt>
+File: ../figures/MCTrials.png Graphic file (type png)
+<use ../figures/MCTrials.png>
+Package luatex.def Info: ../figures/MCTrials.png  used on input line 69.
+(luatex.def)             Requested size: 227.62206pt x 130.07155pt.
 
-LaTeX Warning: File `../figures/MCTrials.png' not found on input line 69.
-
-
-! Package luatex.def Error: File `../figures/MCTrials.png' not found: using dra
-ft setting.
-
-See the luatex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.69 ...idth=0.5\textwidth]{../figures/MCTrials.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 6
-9.
-(D:/Kyle_Shepherd/Documents/Exe_utilities/MiKTeX/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
 Overfull \hbox (9.95847pt too wide) in paragraph at lines 69--70
 [][] 
  []
@@ -1264,17 +1249,7 @@ Underfull \hbox (badness 1762) in paragraph at lines 78--79
 \T1/ptm/m/n/12 to this draw-back, Karger [[]] de-vel-oped
  []
 
-File: figures/IASSAR_Logo.png Graphic file (type png)
-<use figures/IASSAR_Logo.png>
-Package luatex.def Info: figures/IASSAR_Logo.png  used on input line 79.
-(luatex.def)             Requested size: 137.68713pt x 71.13188pt.
-File: figures/ICOSSAR2021_Logo.png Graphic file (type png)
-<use figures/ICOSSAR2021_Logo.png>
-Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 79.
-(luatex.def)             Requested size: 146.89903pt x 51.21495pt.
 
-warning  (pdf backend): ignoring duplicate destination with the name 'page.'
-[3]
 Underfull \hbox (badness 5217) in paragraph at lines 80--81
 []\T1/ptm/m/n/12 How-ever, the FPRAS al-go-rithm only
  []
@@ -1286,6 +1261,17 @@ Underfull \hbox (badness 1484) in paragraph at lines 80--81
 
 File: figures/IASSAR_Logo.png Graphic file (type png)
 <use figures/IASSAR_Logo.png>
+Package luatex.def Info: figures/IASSAR_Logo.png  used on input line 81.
+(luatex.def)             Requested size: 137.68713pt x 71.13188pt.
+File: figures/ICOSSAR2021_Logo.png Graphic file (type png)
+<use figures/ICOSSAR2021_Logo.png>
+Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 81.
+(luatex.def)             Requested size: 146.89903pt x 51.21495pt.
+
+warning  (pdf backend): ignoring duplicate destination with the name 'page.'
+[3<../figures/MCTrials.png>]
+File: figures/IASSAR_Logo.png Graphic file (type png)
+<use figures/IASSAR_Logo.png>
 Package luatex.def Info: figures/IASSAR_Logo.png  used on input line 124.
 (luatex.def)             Requested size: 137.68713pt x 71.13188pt.
 File: figures/ICOSSAR2021_Logo.png Graphic file (type png)
@@ -1295,7 +1281,7 @@ Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 124.
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.'
 [4]
-<../figures/TensorGraphExample.png, id=211, 252.945pt x 144.54pt>
+<../figures/TensorGraphExample.png, id=213, 252.945pt x 144.54pt>
 File: ../figures/TensorGraphExample.png Graphic file (type png)
 <use ../figures/TensorGraphExample.png>
 Package luatex.def Info: ../figures/TensorGraphExample.png  used on input line 
@@ -1329,11 +1315,11 @@ Underfull \hbox (badness 2990) in paragraph at lines 134--135
 
 File: figures/IASSAR_Logo.png Graphic file (type png)
 <use figures/IASSAR_Logo.png>
-Package luatex.def Info: figures/IASSAR_Logo.png  used on input line 158.
+Package luatex.def Info: figures/IASSAR_Logo.png  used on input line 164.
 (luatex.def)             Requested size: 137.68713pt x 71.13188pt.
 File: figures/ICOSSAR2021_Logo.png Graphic file (type png)
 <use figures/ICOSSAR2021_Logo.png>
-Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 158.
+Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 164.
 (luatex.def)             Requested size: 146.89903pt x 51.21495pt.
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.'
@@ -1341,6 +1327,18 @@ warning  (pdf backend): ignoring duplicate destination with the name 'page.'
 Underfull \hbox (badness 1552) in paragraph at lines 196--197
 \T1/ptm/m/n/12 mis-sion net-works [[]] will be con-sid-ered.
  []
+
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
+98.
+(D:/Kyle_Shepherd/Documents/Exe_utilities/MiKTeX/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+Underfull \hbox (badness 10000) in paragraph at lines 198--199
+\T1/lmtt/m/n/12 KyleAnthonyShepherd/SISRRA_tensor_
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 File: figures/IASSAR_Logo.png Graphic file (type png)
 <use figures/IASSAR_Logo.png>
@@ -1353,7 +1351,7 @@ Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 207.
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.'
 [6]
-<../figures/GridGraphComputeTime8.png, id=254, 252.945pt x 234.8775pt>
+<../figures/GridGraphComputeTime8.png, id=259, 252.945pt x 234.8775pt>
 File: ../figures/GridGraphComputeTime8.png Graphic file (type png)
 <use ../figures/GridGraphComputeTime8.png>
 Package luatex.def Info: ../figures/GridGraphComputeTime8.png  used on input li
@@ -1383,7 +1381,7 @@ Underfull \hbox (badness 2626) in paragraph at lines 229--230
  j \OT1/ztmcm/m/n/12 = 400$ \T1/ptm/m/n/12 were gen-er-ated.
  []
 
-<../figures/RcubicWidth_short.png, id=257, 252.945pt x 122.859pt>
+<../figures/RcubicWidth_short.png, id=262, 252.945pt x 122.859pt>
 File: ../figures/RcubicWidth_short.png Graphic file (type png)
 <use ../figures/RcubicWidth_short.png>
 Package luatex.def Info: ../figures/RcubicWidth_short.png  used on input line 2
@@ -1401,9 +1399,6 @@ Underfull \hbox (badness 1019) in paragraph at lines 240--241
 tmcm/m/n/12 (\OML/ztmcm/m/it/12 G\OT1/ztmcm/m/n/12 )$\T1/ptm/m/n/12 . Each
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 File: figures/IASSAR_Logo.png Graphic file (type png)
 <use figures/IASSAR_Logo.png>
 Package luatex.def Info: figures/IASSAR_Logo.png  used on input line 241.
@@ -1415,7 +1410,7 @@ Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 241.
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.'
 [7<../figures/GridGraphComputeTime8.png><../figures/RcubicWidth_short.png>]
-<../figures/RcubicTrials.png, id=272, 252.945pt x 144.54pt>
+<../figures/RcubicTrials.png, id=277, 252.945pt x 144.54pt>
 File: ../figures/RcubicTrials.png Graphic file (type png)
 <use ../figures/RcubicTrials.png>
 Package luatex.def Info: ../figures/RcubicTrials.png  used on input line 249.
@@ -1460,70 +1455,37 @@ m/n/12 (\OML/ztmcm/m/it/12 LG\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 G\OT1/ztmcm/
 m/n/12 ))$\T1/ptm/m/n/12 .
  []
 
-
-LaTeX Warning: File `../figures/WidthCompare.png' not found on input line 264.
-
-
-! Package luatex.def Error: File `../figures/WidthCompare.png' not found: using
- draft setting.
-
-See the luatex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.264 ...0.5\textwidth]{../figures/WidthCompare.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
+<../figures/WidthCompare.png, id=282, 252.945pt x 252.945pt>
+File: ../figures/WidthCompare.png Graphic file (type png)
+<use ../figures/WidthCompare.png>
+Package luatex.def Info: ../figures/WidthCompare.png  used on input line 264.
+(luatex.def)             Requested size: 227.62206pt x 227.62523pt.
 
 Overfull \hbox (9.95847pt too wide) in paragraph at lines 264--265
 [][] 
  []
 
+File: figures/IASSAR_Logo.png Graphic file (type png)
+<use figures/IASSAR_Logo.png>
+Package luatex.def Info: figures/IASSAR_Logo.png  used on input line 268.
+(luatex.def)             Requested size: 137.68713pt x 71.13188pt.
+File: figures/ICOSSAR2021_Logo.png Graphic file (type png)
+<use figures/ICOSSAR2021_Logo.png>
+Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 268.
+(luatex.def)             Requested size: 146.89903pt x 51.21495pt.
 
-LaTeX Warning: File `../figures/PowerGridMC.png' not found on input line 272.
-
-
-! Package luatex.def Error: File `../figures/PowerGridMC.png' not found: using 
-draft setting.
-
-See the luatex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.272 ...=0.5\textwidth]{../figures/PowerGridMC.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
+warning  (pdf backend): ignoring duplicate destination with the name 'page.'
+[8<../figures/RcubicTrials.png><../figures/WidthCompare.png>]
+<../figures/PowerGridMC.png, id=294, 252.945pt x 144.54pt>
+File: ../figures/PowerGridMC.png Graphic file (type png)
+<use ../figures/PowerGridMC.png>
+Package luatex.def Info: ../figures/PowerGridMC.png  used on input line 272.
+(luatex.def)             Requested size: 227.62206pt x 130.07155pt.
 
 Overfull \hbox (9.95847pt too wide) in paragraph at lines 272--273
 [][] 
  []
 
-File: figures/IASSAR_Logo.png Graphic file (type png)
-<use figures/IASSAR_Logo.png>
-Package luatex.def Info: figures/IASSAR_Logo.png  used on input line 282.
-(luatex.def)             Requested size: 137.68713pt x 71.13188pt.
-File: figures/ICOSSAR2021_Logo.png Graphic file (type png)
-<use figures/ICOSSAR2021_Logo.png>
-Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 282.
-(luatex.def)             Requested size: 146.89903pt x 51.21495pt.
-
-warning  (pdf backend): ignoring duplicate destination with the name 'page.'
-[8<../figures/RcubicTrials.png>]
-File: figures/IASSAR_Logo.png Graphic file (type png)
-<use figures/IASSAR_Logo.png>
-Package luatex.def Info: figures/IASSAR_Logo.png  used on input line 294.
-(luatex.def)             Requested size: 137.68713pt x 71.13188pt.
-File: figures/ICOSSAR2021_Logo.png Graphic file (type png)
-<use figures/ICOSSAR2021_Logo.png>
-Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 294.
-(luatex.def)             Requested size: 146.89903pt x 51.21495pt.
-
-warning  (pdf backend): ignoring duplicate destination with the name 'page.'
-[9]
 
 Package array Warning: Redefining primitive column b on input line 301.
 
@@ -3357,17 +3319,15 @@ an alignment. Proceed, and I'll ignore this case.
 )
 File: figures/IASSAR_Logo.png Graphic file (type png)
 <use figures/IASSAR_Logo.png>
-Package luatex.def Info: figures/IASSAR_Logo.png  used on input line 81.
+Package luatex.def Info: figures/IASSAR_Logo.png  used on input line 80.
 (luatex.def)             Requested size: 137.68713pt x 71.13188pt.
 File: figures/ICOSSAR2021_Logo.png Graphic file (type png)
 <use figures/ICOSSAR2021_Logo.png>
-Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 81.
+Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 80.
 (luatex.def)             Requested size: 146.89903pt x 51.21495pt.
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.'
-[10
-
-]
+[9<../figures/PowerGridMC.png>]
 File: figures/IASSAR_Logo.png Graphic file (type png)
 <use figures/IASSAR_Logo.png>
 Package luatex.def Info: figures/IASSAR_Logo.png  used on input line 81.
@@ -3378,7 +3338,7 @@ Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 81.
 (luatex.def)             Requested size: 146.89903pt x 51.21495pt.
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.'
-[11] (./ICOSSAR_2021_template.bbl
+[10] (./ICOSSAR_2021_template.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 17--23
 []\T1/ptm/m/n/10.95 Jian Li, Leonardo Dueñas-Osorio,
  []
@@ -3449,8 +3409,7 @@ Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 115.
 (luatex.def)             Requested size: 146.89903pt x 51.21495pt.
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.'
-[12
-
+[11
 
 
 Missing character: There is no “ (U+201C) in font ptmr8t!
@@ -3517,20 +3476,20 @@ Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 87.
 (luatex.def)             Requested size: 146.89903pt x 51.21495pt.
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.'
-[13] (./ICOSSAR_2021_template.aux)
+[12] (./ICOSSAR_2021_template.aux)
 Package rerunfilecheck Info: File `ICOSSAR_2021_template.out' has not changed.
 (rerunfilecheck)             Checksum: 122E8BAEA336C09027B50656872586CB;4346.
 )
 
 Here is how much of LuaTeX's memory you used:
- 26871 strings out of 477867
- 305239,1144653 words of node,token memory allocated
- 2371 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 2 glue, 229 kern, 1 glyph, 182 attribute, 63 glue_s
-pec, 182 attribute_list, 2 write nodes
-   avail lists: 1:2,2:12653,3:3206,4:96,5:310,6:1596,7:19931,8:72,9:9845,10:25,1
+ 26527 strings out of 477867
+ 381544,1144653 words of node,token memory allocated
+ 2381 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 2 glue, 229 kern, 1 glyph, 183 attribute, 63 glue_s
+pec, 183 attribute_list, 2 write, 1 pdf_action nodes
+   avail lists: 1:1,2:12917,3:3249,4:96,5:297,6:1596,7:23210,8:99,9:9844,10:25,1
 1:925
- 45516 multiletter control sequences out of 65536+600000
+ 45445 multiletter control sequences out of 65536+600000
  202 fonts using 13825303 bytes
  110i,17n,118p,1088b,607s stack positions out of 5000i,500n,10000p,200000b,80000s
 {D:/Kyle_Shepherd/Documents/Exe_utilities/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}{D
@@ -3547,9 +3506,9 @@ le_Shepherd/Documents/Exe_utilities/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><D:/
 Kyle_Shepherd/Documents/Exe_utilities/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><D
 :/Kyle_Shepherd/Documents/Exe_utilities/MiKTeX/fonts/type1/urw/times/utmri8a.pfb
 >
-Output written on ICOSSAR_2021_template.pdf (13 pages, 1243004 bytes).
+Output written on ICOSSAR_2021_template.pdf (12 pages, 1741963 bytes).
 
-PDF statistics: 363 PDF objects out of 1000 (max. 8388607)
+PDF statistics: 369 PDF objects out of 1000 (max. 8388607)
  99 named destinations out of 1000 (max. 131072)
  232 words of extra memory for PDF output out of 10000 (max. 100000000)
 

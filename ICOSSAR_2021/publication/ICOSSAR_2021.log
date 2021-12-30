@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.14.0 (MiKTeX 21.12.10) (format=lualatex 2021.12.29)  30 DEC 2021 15:33
+This is LuaHBTeX, Version 1.14.0 (MiKTeX 21.12.10) (format=lualatex 2021.12.29)  30 DEC 2021 16:27
  restricted system commands enabled.
 **ICOSSAR_2021.tex
 (./ICOSSAR_2021.tex
@@ -1326,6 +1326,18 @@ Underfull \hbox (badness 1552) in paragraph at lines 403--404
 \T1/ptm/m/n/12 mis-sion net-works [[]] will be con-sid-ered.
  []
 
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4
+05.
+(D:/Kyle_Shepherd/Documents/Exe_utilities/MiKTeX/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+Underfull \hbox (badness 10000) in paragraph at lines 405--406
+\T1/lmtt/m/n/12 KyleAnthonyShepherd/SISRRA_tensor_
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 File: figures/IASSAR_Logo.png Graphic file (type png)
 <use figures/IASSAR_Logo.png>
 Package luatex.def Info: figures/IASSAR_Logo.png  used on input line 414.
@@ -1337,7 +1349,7 @@ Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 414.
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.'
 [6]
-<../figures/GridGraphComputeTime8.png, id=257, 252.945pt x 234.8775pt>
+<../figures/GridGraphComputeTime8.png, id=259, 252.945pt x 234.8775pt>
 File: ../figures/GridGraphComputeTime8.png Graphic file (type png)
 <use ../figures/GridGraphComputeTime8.png>
 Package luatex.def Info: ../figures/GridGraphComputeTime8.png  used on input li
@@ -1347,9 +1359,6 @@ ne 420.
 Overfull \hbox (9.95847pt too wide) in paragraph at lines 420--421
 [][] 
  []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Underfull \hbox (badness 1173) in paragraph at lines 428--429
@@ -1370,7 +1379,7 @@ Underfull \hbox (badness 2626) in paragraph at lines 436--437
  j \OT1/ztmcm/m/n/12 = 400$ \T1/ptm/m/n/12 were gen-er-ated.
  []
 
-<../figures/RcubicWidth_short.png, id=260, 252.945pt x 122.859pt>
+<../figures/RcubicWidth_short.png, id=262, 252.945pt x 122.859pt>
 File: ../figures/RcubicWidth_short.png Graphic file (type png)
 <use ../figures/RcubicWidth_short.png>
 Package luatex.def Info: ../figures/RcubicWidth_short.png  used on input line 4
@@ -1399,7 +1408,7 @@ Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 448.
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.'
 [7<../figures/GridGraphComputeTime8.png><../figures/RcubicWidth_short.png>]
-<../figures/RcubicTrials.png, id=273, 252.945pt x 144.54pt>
+<../figures/RcubicTrials.png, id=277, 252.945pt x 144.54pt>
 File: ../figures/RcubicTrials.png Graphic file (type png)
 <use ../figures/RcubicTrials.png>
 Package luatex.def Info: ../figures/RcubicTrials.png  used on input line 456.
@@ -1444,7 +1453,7 @@ m/n/12 (\OML/ztmcm/m/it/12 LG\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 G\OT1/ztmcm/
 m/n/12 ))$\T1/ptm/m/n/12 .
  []
 
-<../figures/WidthCompare.png, id=278, 252.945pt x 252.945pt>
+<../figures/WidthCompare.png, id=282, 252.945pt x 252.945pt>
 File: ../figures/WidthCompare.png Graphic file (type png)
 <use ../figures/WidthCompare.png>
 Package luatex.def Info: ../figures/WidthCompare.png  used on input line 471.
@@ -1465,7 +1474,7 @@ Package luatex.def Info: figures/ICOSSAR2021_Logo.png  used on input line 475.
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.'
 [8<../figures/RcubicTrials.png><../figures/WidthCompare.png>]
-<../figures/PowerGridMC.png, id=290, 252.945pt x 144.54pt>
+<../figures/PowerGridMC.png, id=294, 252.945pt x 144.54pt>
 File: ../figures/PowerGridMC.png Graphic file (type png)
 <use ../figures/PowerGridMC.png>
 Package luatex.def Info: ../figures/PowerGridMC.png  used on input line 479.
@@ -3407,31 +3416,33 @@ Package rerunfilecheck Info: File `ICOSSAR_2021.out' has not changed.
 )
 
 Here is how much of LuaTeX's memory you used:
- 26394 strings out of 477867
- 381549,1144653 words of node,token memory allocated
- 2371 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 2 glue, 229 kern, 1 glyph, 182 attribute, 63 glue_s
-pec, 182 attribute_list, 2 write nodes
-   avail lists: 1:1,2:12899,3:3247,4:96,5:295,6:1594,7:23143,8:72,9:9828,10:25,1
-1:925
- 45403 multiletter control sequences out of 65536+600000
- 201 fonts using 13743903 bytes
+ 26435 strings out of 477867
+ 381557,1144653 words of node,token memory allocated
+ 2381 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 2 glue, 229 kern, 1 glyph, 183 attribute, 63 glue_s
+pec, 183 attribute_list, 2 write, 1 pdf_action nodes
+   avail lists: 1:1,2:12899,3:3247,4:96,5:297,6:1594,7:23192,8:100,9:9828,10:25,
+11:925
+ 45437 multiletter control sequences out of 65536+600000
+ 202 fonts using 13825303 bytes
  105i,17n,115p,1056b,594s stack positions out of 5000i,500n,10000p,200000b,80000s
-{D:/Kyle_Shepherd/Documents/Exe_utilities/MiKTeX/fonts/enc/dvips/base/8r.enc}<D:
-/Kyle_Shepherd/Documents/Exe_utilities/MiKTeX/fonts/truetype/public/academicons/
-academicons.ttf><./ariali.ttf><D:/Kyle_Shepherd/Documents/Exe_utilities/MiKTeX/f
-onts/type1/public/amsfonts/cm/cmex10.pfb><D:/Kyle_Shepherd/Documents/Exe_utiliti
-es/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><D:/Kyle_Shepherd/Documents/
-Exe_utilities/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><D:/Kyle_Shepherd/
-Documents/Exe_utilities/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Kyl
+{D:/Kyle_Shepherd/Documents/Exe_utilities/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}{D
+:/Kyle_Shepherd/Documents/Exe_utilities/MiKTeX/fonts/enc/dvips/base/8r.enc}<D:/K
+yle_Shepherd/Documents/Exe_utilities/MiKTeX/fonts/truetype/public/academicons/ac
+ademicons.ttf><./ariali.ttf><D:/Kyle_Shepherd/Documents/Exe_utilities/MiKTeX/fon
+ts/type1/public/amsfonts/cm/cmex10.pfb><D:/Kyle_Shepherd/Documents/Exe_utilities
+/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><D:/Kyle_Shepherd/Documents/Ex
+e_utilities/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><D:/Kyle_Shepherd/Do
+cuments/Exe_utilities/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Kyle_
+Shepherd/Documents/Exe_utilities/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><D:/Kyl
 e_Shepherd/Documents/Exe_utilities/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><D:/Ky
 le_Shepherd/Documents/Exe_utilities/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><D:/
 Kyle_Shepherd/Documents/Exe_utilities/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><D
 :/Kyle_Shepherd/Documents/Exe_utilities/MiKTeX/fonts/type1/urw/times/utmri8a.pfb
 >
-Output written on ICOSSAR_2021.pdf (12 pages, 1717283 bytes).
+Output written on ICOSSAR_2021.pdf (12 pages, 1741954 bytes).
 
-PDF statistics: 361 PDF objects out of 1000 (max. 8388607)
+PDF statistics: 369 PDF objects out of 1000 (max. 8388607)
  99 named destinations out of 1000 (max. 131072)
  232 words of extra memory for PDF output out of 10000 (max. 100000000)
 
