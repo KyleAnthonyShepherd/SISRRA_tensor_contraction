@@ -198,6 +198,7 @@ def InfRepeat(filename):
         # k=k+1
 
 def CubicGraphTreeWidths(filename):
+    import multiprocessing
     from multiprocessing import Pool
 
     file=open('analysis/TreeWidthData-'+filename[filename.rfind(r"/")+1:],'a')
@@ -210,7 +211,8 @@ def CubicGraphTreeWidths(filename):
     #     os.fsync(file)
     #     print(G)
 
-    p=Pool(6)
+    cores=max(1,multiprocessing.cpu_count()-2)
+    p = Pool(processes=cores)
     for G in p.imap_unordered(cubic_graph_utilities.CubicTreeWidthParallel, InfRepeat(filename)):
         file.write(str(G[0])+'|'+str(G[1])+'|'+str(G[2])+'|'+str(G[3])+'|'+str(G[4])+'\n')
         file.flush()
@@ -227,7 +229,7 @@ def CubicGraphTreeWidths(filename):
     p.close()
     file.close()
 
-def RandomCubicFileRead(filename):
+def RandomCubicFileRead(filename,edge_reliability=.99):
     # k=0
 
     # check which graph IDS have already been processed
@@ -249,7 +251,7 @@ def RandomCubicFileRead(filename):
         edges=l[2].split(';')
         for ee in edges[:-1]:
             ee=ee[1:-1].split(',')
-            EdgeList.append((int(ee[0]),int(ee[1]),float(ee[2])))
+            EdgeList.append((int(ee[0]),int(ee[1]),float(edge_reliability)))
         # print((EdgeList,l[0],l[1]))
         yield (EdgeList,l[0],l[1])
         # yield (int(numpy.random.randint(10,201)*2),str(k))
@@ -297,9 +299,9 @@ def RandomCubicRelProcess(n):
         # except:
         #     pass
 
-def RandomCubicRel(filename):
+def RandomCubicRel(filename,edge_reliability=.99):
 
-    file=open('analysis/Rcubic-'+filename[filename.rfind(r"/")+1:],'a')
+    file=open('analysis/Rcubic-'+filename[filename.rfind(r"/")+1:],'w')
 
     # for n in RandomCubicFileRead(filename):
     #     R=RandomCubicRelProcess(n)
@@ -318,9 +320,11 @@ def RandomCubicRel(filename):
     #     file.flush()
     #     os.fsync(file)
 
+    import multiprocessing
     from multiprocessing import Pool
-    p=Pool(6)
-    for R in p.imap_unordered(RandomCubicRelProcess, RandomCubicFileRead(filename)):
+    cores=max(1,multiprocessing.cpu_count()-2)
+    p = Pool(processes=cores)
+    for R in p.imap(RandomCubicRelProcess, RandomCubicFileRead(filename,edge_reliability)):
         file.write(R['k']+'|')
         file.write(R['n']+'|')
         file.write(R['G6']+'|')
@@ -364,6 +368,10 @@ def RandomCubicRel_MCtrials(filename):
             input()
 
         C2=1.9205
+        # print(l)
+        if P0==0:
+            print(l)
+            input()
         NT=C2/(pt*numpy.log(pt)+(1-pt)*numpy.log(1-pt)-pt*numpy.log(P0)-(1-pt)*numpy.log(1-P0))
 
         file.write('|'.join(D)+'|'+str(NT)+'\n')
@@ -423,7 +431,7 @@ def PowerGridsREL():
 
         file.close()
 
-def PowerGridsREL_vs_MCtrials():
+def PowerGridsREL_MCtrials():
     for p in [.5,.9,.99]:
         file=open('analysis/PowerGridsREL'+str(int(p*100)),'r')
         lines=file.readlines()
@@ -443,3 +451,15 @@ def PowerGridsREL_vs_MCtrials():
 
             file.write(l[:-1]+'|'+str(NT)+'\n')
         file.close()
+
+if __name__ == "__main__":
+    filename="data/ConnectedRandomCubic-0-10000-Vmin-20-Vmax-50-seed-64"
+    # RandomCubicRel_MCtrials(filename)
+    print(filename)
+    gen=RandomCubicFileRead(filename)
+    '656'
+    Clist=['615','4986','5839','7786','8338']
+    for n in gen:
+        if n[1] in Clist:
+            R=RandomCubicRelProcess(n)
+            print(R)

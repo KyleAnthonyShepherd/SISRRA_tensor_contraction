@@ -39,16 +39,16 @@ Alberto Escalera, Barry Hayes, and Milan Prodanovi{\'c}.
   networks.
 \newblock {\em Renewable and Sustainable Energy Reviews}, 91:344--357, 2018.
 
+\bibitem{carlier1996decomposition}
+Jacques Carlier and Corinne Lucet.
+\newblock A decomposition algorithm for network reliability evaluation.
+\newblock {\em Discrete Applied Mathematics}, 65(1-3):141--156, 1996.
+
 \bibitem{hardy2007k}
 Gary Hardy, Corinne Lucet, and Nikolaos Limnios.
 \newblock K-terminal network reliability measures with binary decision
   diagrams.
 \newblock {\em IEEE Transactions on Reliability}, 56(3):506--515, 2007.
-
-\bibitem{carlier1996decomposition}
-Jacques Carlier and Corinne Lucet.
-\newblock A decomposition algorithm for network reliability evaluation.
-\newblock {\em Discrete Applied Mathematics}, 65(1-3):141--156, 1996.
 
 \bibitem{berend2010improved}
 Daniel Berend and Tamir Tassa.
@@ -153,6 +153,11 @@ J~Scott Provan.
   graphs.
 \newblock {\em SIAM Journal on Computing}, 15(3):694--702, 1986.
 
+\bibitem{dujmovic2017structure}
+Vida Dujmovic, David Eppstein, and David~R Wood.
+\newblock Structure of graphs with locally restricted crossings.
+\newblock {\em SIAM Journal on Discrete Mathematics}, 31(2):805--824, 2017.
+
 \bibitem{maniu2019experimental}
 Silviu Maniu, Pierre Senellart, and Suraj Jog.
 \newblock An experimental study of the treewidth of real-world graph data.
@@ -173,15 +178,15 @@ Tom{\'a}s Feder, Adam Guetz, Milena Mihail, and Amin Saberi.
 \newblock In {\em 2006 47th Annual IEEE Symposium on Foundations of Computer
   Science (FOCS'06)}, pages 69--76. IEEE, 2006.
 
-\bibitem{fosdick2018configuring}
-Bailey~K Fosdick, Daniel~B Larremore, Joel Nishimura, and Johan Ugander.
-\newblock Configuring random graph models with fixed degree sequences.
-\newblock {\em SIAM Review}, 60(2):315--355, 2018.
+\bibitem{biamonte2017tensor}
+Jacob Biamonte and Ville Bergholm.
+\newblock Tensor networks in a nutshell.
+\newblock {\em arXiv preprint arXiv:1708.00006}, 2017.
 
-\bibitem{mcdiarmid2005random}
-Colin McDiarmid, Angelika Steger, and Dominic~JA Welsh.
-\newblock Random planar graphs.
-\newblock {\em Journal of Combinatorial Theory, Series B}, 93(2):187--205,
-  2005.
+\bibitem{duenas2018quantum}
+Leonardo Duenas-Osorio, Moshe Vardi, and Javier Rojo.
+\newblock Quantum-inspired boolean states for bounding engineering network
+  reliability assessment.
+\newblock {\em Structural Safety}, 75:110--118, 2018.
 
 \end{thebibliography}

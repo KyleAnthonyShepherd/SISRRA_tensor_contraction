@@ -4,10 +4,10 @@ Using tree decomposition algorithms, these functions optimize the edge factor or
 
 Functions
 ---------
-**ATR(EdgeList,ATRverbose=False,TreeWidthCalcTime=6) :**  
+**ATR(EdgeList,ATRverbose=False,TreeWidthCalcTime=6) :**
     Calculates the All Terminal Reliability of a undirected graph defined by EdgeList.
 
-**EdgeCover(EdgeList,ECverbose=False,TreeWidthCalcTime=6) :**  
+**EdgeCover(EdgeList,ECverbose=False,TreeWidthCalcTime=6) :**
     Calculates the Edge Cover of a undirected graph defined by EdgeList.
 
 Notes
@@ -106,14 +106,14 @@ def ATR(EdgeList,ATRverbose=False,TreeWidthCalcTime=6,ID=''):
     PathWidthSize=None
     # if the treewidth calculation time is not set to zero, optimize the edge ordering
     if TreeWidthCalcTime!=0:
-        Fname=TreeWidth.TreeWidthExact(EdgeList,seconds=TreeWidthCalcTime,ID=ID)
+        Fname=TreeWidth.TreeWidthExact(EdgeList,seconds=TreeWidthCalcTime,ID=ID+'ATR')
         print('Obtained Tree Decomposition')
 
         # GET EDGE CONTRACTION ORDER
         file=open(Fname)
         lines=file.readlines()
         file.close()
-        os.remove(cwd+'/'+Fname)
+        os.remove(os.getcwd()+'/'+Fname)
         bags=[]
         tree=[]
         for l in lines:
@@ -247,7 +247,7 @@ def EdgeCover(EdgeList,ECverbose=False,TreeWidthCalcTime=6,ID=''):
         Gline=general_utilities._EdgeListtoLine(EdgeList)
         Gix,ixTdict,dictTix=general_utilities._DictToix(Gline)
         EdgeListLine=general_utilities._ixDictToEdgeList(Gix)
-        Fname=TreeWidth.TreeWidthExact(EdgeListLine,seconds=TreeWidthCalcTime,ID=ID)
+        Fname=TreeWidth.TreeWidthExact(EdgeListLine,seconds=TreeWidthCalcTime,ID=ID+'EC')
         print('Obtained Tree Decomposition')
 
         #### GET EDGE CONTRACTION ORDER
@@ -255,7 +255,7 @@ def EdgeCover(EdgeList,ECverbose=False,TreeWidthCalcTime=6,ID=''):
         file=open(Fname)
         lines=file.readlines()
         file.close()
-        os.remove(cwd+'/'+Fname)
+        os.remove(os.getcwd()+'/'+Fname)
         bags=[]
         tree=[]
         for l in lines:
@@ -321,7 +321,7 @@ def EdgeCover(EdgeList,ECverbose=False,TreeWidthCalcTime=6,ID=''):
         # print(EC)
     else:
         # create Node Tensors
-        G=utilities.EdgeListtoG(EdgeList)
+        G=general_utilities._EdgeListtoG(EdgeList)
         Nodes=[]
         for n in G:
             TT=numpy.ones(2**len(G[n]))

@@ -85,6 +85,10 @@ def TreeWidthApprox(EdgeList,seconds=6,ID=''):
         file.write(str(int(e[0])+1)+' '+str(int(e[1])+1)+'\n')
     file.close()
 
+    # try:
+    #     os.remove(os.getcwd()+'/'+'outApprox'+ID)
+    # except:
+    #     pass
     outfile=open('outApprox'+ID,'w')
 
     sec=str(int(seconds))
@@ -96,7 +100,7 @@ def TreeWidthApprox(EdgeList,seconds=6,ID=''):
     else:
         raise RuntimeError('OS X is not supported')
     p.wait()
-    p.kill()
+    # p.kill()
     outfile.close()
     os.remove(cwd+'/G'+ID+'.gr')
 
@@ -156,11 +160,11 @@ def TreeWidthExact(EdgeList,seconds=6,ID=''):
         file.write(str(int(e[0])+1)+' '+str(int(e[1])+1)+'\n')
     file.close()
 
-    try:
-        os.remove('outExact'+ID)
-    except:
-        pass
-    outfile=open('outExact'+ID,'w')
+    # try:
+    #     os.remove(os.getcwd()+'/'+'outExact'+ID)
+    # except:
+    #     pass
+    outfile=open(os.getcwd()+'/'+'outExact'+ID,'w')
 
     sec=str(int(seconds))
     if sys.platform == "win32":
@@ -176,10 +180,13 @@ def TreeWidthExact(EdgeList,seconds=6,ID=''):
         os.remove(cwd+'/G'+ID+'.gr')
         return 'outExact'+ID
 
-    try:
-        os.remove('outExact'+ID)
-    except:
-        pass
+    key=True
+    while key:
+        try:
+            os.remove(os.getcwd()+'/'+'outExact'+ID)
+            key=False
+        except:
+            pass
 
     TreeWidthApprox(EdgeList,seconds=seconds,ID=ID)
     print('approx')

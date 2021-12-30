@@ -3,19 +3,19 @@ This module contains functions to perform miscellaneous tasks on cubic graphs. M
 
 Functions
 ---------
-**SetSeed(seed) :**  
+**SetSeed(seed) :**
     Sets seed of numba runtime
 
-**ConnectedRandomCubicGenerate(pegs,G) :**  
+**ConnectedRandomCubicGenerate(pegs,G) :**
     numba optimized function for generating random uniform connected random cubic graphs. A 1-Flipper Markov Chain Monte Carlo (MCMC) algorithm is used to uniformly generate these random cubic graphs.
     Algorithm from:
     Tomás Feder, Adam Guetz, Milena Mihail, and Amin Saberi. A local switch markov chain on given degree graphs with application in connectivity of peer-to-peer networks. In 2006 47th Annual IEEE Symposium on Foundations of Computer Science (FOCS’06), pages 69-76. IEEE, 2006
     Code written by me.
 
-**ConnectedRandomCubic(n,EP=None) :**  
+**ConnectedRandomCubic(n,EP=None) :**
     Returns a random uniform connected random cubic graph of size n by calling ConnectedRandomCubicGenerate
 
-**GenConnectedRandomCubic(ID0=0,ID1=10000,Vmin=20,Vmax=400,seed=42) :**  
+**GenConnectedRandomCubic(ID0=0,ID1=10000,Vmin=20,Vmax=400,seed=42) :**
     Helper function to pre-generate a list of random connected cubic graphs.
 
 
@@ -163,7 +163,7 @@ def ConnectedRandomCubicGenerate(pegs):
                         Eix=Eix+1
             Error=False
             if Eix==0:
-                print('error')
+                print('forced loop in spanning tree, trying again')
                 Error=True
                 break
             # select a random edge to add
@@ -448,6 +448,7 @@ def CubicTreeWidthParallel(n):
             file=open(Fname)
             lines=file.readlines()
             file.close()
+            os.remove(os.getcwd()+'/'+Fname)
             bags=[]
             tree=[]
             for l in lines:
@@ -481,6 +482,7 @@ def CubicTreeWidthParallel(n):
             file=open(Fname)
             lines=file.readlines()
             file.close()
+            os.remove(os.getcwd()+'/'+Fname)
             bags=[]
             tree=[]
             for l in lines:

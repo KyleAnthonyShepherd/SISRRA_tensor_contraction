@@ -1,6 +1,7 @@
-numpy==1.20.1
-matplotlib==3.3.4
-numba==0.52.0
-pywin32==300
-networkx==2.5
+matplotlib==3.5.1
+networkx==2.6.3
+numba==0.54.1
+numpy==1.20.3
+pywin32==303
+setuptools==60.2.0
 win32gui==221.6

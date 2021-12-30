@@ -1,3 +1,4 @@
+import setuptools
 from setuptools import setup, find_packages
 import os
 import sys
@@ -18,7 +19,7 @@ if __name__ == "__main__":
     if len(sys.argv)==2:
         date=datetime.date.today().timetuple()
         version='1.'+str(date.tm_year-2019)+'.'+str(date.tm_yday)
-        os.system('rm -vrf ./build ./dist ./*.pyc ./*.tgz ./*.egg-info')
+        os.system('wsl.exe rm -vrf ./build ./dist ./*.pyc ./*.tgz ./*.egg-info')
         command='pipreqs --force ../'+PackageName
         for ign in pipignore:
             command=command+' --ignore '+ign
@@ -46,7 +47,7 @@ if __name__ == "__main__":
               zip_safe=False
             )
         os.system('pip install --no-deps --force-reinstall ./dist/'+PackageName+'-'+version+'-py3-none-any.whl')
-        os.system('rm -vrf ./build ./*.pyc ./*.tgz ./*.egg-info')
+        os.system('wsl.exe rm -vrf ./build ./*.pyc ./*.tgz ./*.egg-info')
         os.chdir('..')
         # result=os.system('pdoc --html --force '+str(PackageName)+' --output-dir '+str(PackageName)+'/documentation')
         result=os.system('pdoc --docformat numpy -o ./'+str(PackageName)+'/documentation ./'+str(PackageName))

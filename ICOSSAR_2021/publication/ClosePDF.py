@@ -5,17 +5,17 @@ import win32gui
 import win32con
 import time
 
-if __name__ == "__main__":
-    def winEnumHandler( hwnd, ctx ):
-        # print(ctx)
-        if win32gui.IsWindowVisible( hwnd ):
-            if ctx+ ' - Adobe Acrobat Reader DC (32-bit)'==win32gui.GetWindowText( hwnd ):
-                win32gui.PostMessage(hwnd,win32con.WM_CLOSE,0,0)
-            print (win32gui.GetWindowText( hwnd ))
 
-    win32gui.EnumWindows( winEnumHandler, sys.argv[1] )
-    print(sys.argv)
+def winEnumHandler( hwnd, ctx ):
+    # print(ctx)
+    if win32gui.IsWindowVisible( hwnd ):
+        if ctx+ ' - Adobe Acrobat Reader DC (64-bit)'==win32gui.GetWindowText( hwnd ):
+            win32gui.PostMessage(hwnd,win32con.WM_CLOSE,0,0)
+        print (win32gui.GetWindowText( hwnd ))
 
-    # Manuscript_Dec_30.pdf - Adobe Reader
+win32gui.EnumWindows( winEnumHandler, sys.argv[1] )
+print(sys.argv)
 
-    # sys.exit()
+# Manuscript_Dec_30.pdf - Adobe Reader
+
+sys.exit()

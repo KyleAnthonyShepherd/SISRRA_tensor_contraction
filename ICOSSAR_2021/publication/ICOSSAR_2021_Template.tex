@@ -48,7 +48,7 @@
 \begin{abstract}
 	\noindent
 
-	ABSTRACT: Quantifying network reliability is a hard problem, proven to be \#P-complete \cite{valiant1979complexity}. For real-world network planning and decision making, approximations for the network reliability problem are necessary. This study shows that tensor network contraction (TNC) methods can quickly estimate an upper bound of All Terminal Reliability, $Rel_{ATR}(G)$, by solving a superset of the network reliability problem: the edge cover problem, $EC(G)$. In addition, these tensor contraction methods can exactly solve S-T reliability for the class of directed acyclic networks, $Rel_{S-T}(G)$.
+	ABSTRACT: Quantifying network reliability is a hard problem, proven to be \#P-complete \cite{valiant1979complexity}. For real-world network planning and decision making, approximations for the network reliability problem are necessary. This study shows that tensor network contraction (TNC) methods can quickly estimate an upper bound of All Terminal Reliability, $Rel_{ATR}(G)$, by solving a superset of the network reliability problem: the edge cover problem, $EC(G)$. In addition, these tensor contraction methods can exactly solve source-terminal (S-T) reliability for the class of directed acyclic networks, $Rel_{S-T}(G)$.
 
     The computational complexity of TNC methods is parameterized by treewidth, significantly benefitting from recent advancements in approximate tree decomposition algorithms \cite{dell2018pace}. This parameterization does not rely on the reliability of the graph, which means these tensor contraction methods can determine reliability faster than Monte Carlo methods on highly reliable networks, while also providing exact answers or guaranteed upper bound estimates. These tensor contraction methods are applied to grid graphs, random cubic graphs, and a selection of 58 power transmission networks \cite{li2016characterizing}, demonstrating computational efficiency and effective approximation using $EC(G)$.
     %
@@ -75,13 +75,13 @@
 
 \addtolength{\textfloatsep}{-0.2in}
 \input{manuscript.tex}
-
 % Here start your contexts...
 
+\newpage
+\clearpage
 \section{REFERENCES}
 {\small
 \bibliographystyle{unsrt}
-\bibliography{../../../../publications/bib/bib}
+\bibliography{W:/Kyle_Shepherd/bib/bib}
 }
-
 \end{document}

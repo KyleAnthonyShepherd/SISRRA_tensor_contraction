@@ -1,5 +1,5 @@
 '''
-This module contains functions to create the figures seen in the ICOSSAR 2021 paper. 
+This module contains functions to create the figures seen in the ICOSSAR 2021 paper.
 '''
 import numpy
 
@@ -148,7 +148,7 @@ def GridGraphComputeTimeFigure():
     plot2 = fig.add_axes([0.5 / dx, 0.5 / dy, 2.75 / dx, 1.25 / dy])
 
     for ix,p in enumerate([.5,.9,.99]):
-        file=open('GridsNvaryMCTRIALS'+str(int(p*100)),'r')
+        file=open('analysis/GridsNvaryMCTRIALS'+str(int(p*100)),'r')
         lines=file.readlines()
         file.close()
 
@@ -207,7 +207,7 @@ def GridGraphComplexityFigure():
     plot4 = fig.add_axes([2.15 / dx, 0.5 / dy, 1.0 / dx, 1.0 / dy])
 
     for ix,p in enumerate([.5,.9,.99]):
-        file=open('GridsNvaryMCTRIALS'+str(int(p*100)),'r')
+        file=open('analysis/GridsNvaryMCTRIALS'+str(int(p*100)),'r')
         lines=file.readlines()
         file.close()
 
@@ -267,7 +267,7 @@ def GridGraphComplexityFigure():
     # plot2 = fig.add_axes([0.5 / dx, 0.5 / dy, 2.75 / dx, 1.25 / dy])
 
     for ix,p in enumerate([.5,.9,.99]):
-        file=open('GridsLvaryMCTRIALS'+str(int(p*100)),'r')
+        file=open('analysis/GridsLvaryMCTRIALS'+str(int(p*100)),'r')
         lines=file.readlines()
         file.close()
 
@@ -298,15 +298,22 @@ def GridGraphComplexityFigure():
         ECt.append(numpy.average(EC[x]))
 
 
-    plot3.plot(X,numpy.array(RELsubg)/1000,label='Subgraphs')
-    plot3.plot(X,numpy.array(ECfp)/1000,label='Floating Point \n Operations')
+    plot3.plot(X,numpy.array(RELsubg),label='Subgraphs')
+    plot3.plot(X,numpy.array(ECfp),label='Floating Point \n Operations')
     plot4.plot(X,RELt,label='$Rel_{ATR}(G)$ (sec)')
     plot4.plot(X,numpy.array(ECt)*100,label='$EC(G)$ \n (sec*100)')
 
     plot3.set_xticklabels([])
     plot3.set_xticks([])
     plot3.set_yticks([int(i) for i in plot3.get_yticks()])
-    plot3.set_yticklabels(plot3.get_yticks(),fontsize=6)
+    yticks=list(plot3.get_yticks())
+    ticks=[]
+    for yy in yticks:
+        ticks.append(str(int(yy/100000))+str(r'$*10^5$'))
+    ticks[0]='0'
+    print(yticks)
+    # plot3.set_yticklabels(ticks,fontsize=6)
+    plot3.set_yticklabels(ticks)
     # plot1a.set_yticklabels([])
     # plot1a.set_yticks([])
     # plot.set_yscale("log")
@@ -315,8 +322,9 @@ def GridGraphComplexityFigure():
     plot3.set_title('8xn Grid [c]')
     plot4.set_title('Wall Clock Time [d]')
     plot4.set_xlabel('Grid Dimension $n$')
-    plot3.set_ylabel('Operation Count (thousands)')
-    plot4.set_ylabel('Time')
+    # plot3.set_ylabel('Operation Count (thousands)')
+    # plot4.set_ylabel('Time')
+    # plot3.ticklabel_format(axis='y',style='sci',scilimits=(0,0))
 
     plot3.legend()
     plot4.legend()
@@ -435,7 +443,7 @@ def RandomCubicMonteCarlo():
     fig = plt.figure(figsize=(dx, dy)) #makes figure/canvas space
     plot = fig.add_axes([0.5 / dx, 0.5 / dy, 2.75 / dx, 1.25 / dy])
 
-    file=open('RcubicMCTRIALS64','r')
+    file=open('analysis/RcubicMCTRIALS-ConnectedRandomCubic-0-10000-Vmin-20-Vmax-50-seed-64','r')
     lines=file.readlines()
     file.close()
 
@@ -454,7 +462,7 @@ def RandomCubicMonteCarlo():
     # MCtrials=numpy.array(MCtrials)
     # Y=numpy.linspace(0,1,MCtrials.shape[0])
     for k in range(50,19,-6):
-        plot.plot(MCtrials[k],Y[k],label='n='+str(k))
+        plot.plot(MCtrials[k],Y[k],label='|N|='+str(k))
     plot.set_xscale("log")
     # plot.set_yscale("log")
     plot.set_title('MC trials needed to rule out $EC_{cubic}(G)$')
@@ -475,7 +483,7 @@ def RandomCubicWidthFigure():
     plot = fig.add_axes([0.5 / dx, 1.75 / dy, 2.75 / dx, 1.0 / dy])
     plot2 = fig.add_axes([0.5 / dx, 0.5 / dy, 2.75 / dx, 1.0 / dy])
 
-    file=open('TreeWidthData','r')
+    file=open('analysis/TreeWidthData-ConnectedRandomCubic-0-10000-Vmin-20-Vmax-400-seed-42','r')
     lines=file.readlines()
     file.close()
 
@@ -487,11 +495,11 @@ def RandomCubicWidthFigure():
     LGW=[]
     for l in lines:
         data=l.replace('\n','').split('|')
-        n=int(data[0])
+        n=int(data[1])
         X.append(n)
-        TW.append(int(data[1]))
-        PW.append(int(data[2]))
-        LGW.append(int(data[3]))
+        TW.append(int(data[2]))
+        PW.append(int(data[3]))
+        LGW.append(int(data[4]))
 
     for k in range(0,len(X)):
         if X[k] not in TWvPW:
@@ -525,7 +533,10 @@ def RandomCubicWidthFigure():
     plot.set_ylabel('Width')
     legn=plot.legend(markerscale=5)
     for lh in legn.legendHandles:
-        lh._legmarker.set_alpha(1)
+        try:
+            lh._legmarker.set_alpha(1)
+        except:
+            lh.set_alpha(1)
 
     # plot2.plot(XR,TWvPWy)
     # plot2.plot(XR,TWvLGWy)
@@ -537,11 +548,97 @@ def RandomCubicWidthFigure():
     plot2.set_ylabel('Width Ratio')
     legn=plot2.legend(markerscale=5)
     for lh in legn.legendHandles:
-        lh._legmarker.set_alpha(1)
+        try:
+            lh._legmarker.set_alpha(1)
+        except:
+            lh.set_alpha(1)
 
     plot.set_xlim(20, 400)
     plot2.set_xlim(20, 400)
     fig.savefig("figures/RcubicWidth.png",dpi=600)
+
+def RandomCubicWidthFigure_short():
+    plt.rc('xtick', labelsize=7)
+    plt.rc('ytick', labelsize=7) #labelsizes
+    plt.rcParams['axes.labelsize'] = 8
+    plt.rc('axes', titlesize=10)  #titlesize
+    plt.rc('legend', fontsize=7)  #legendsize
+    dx = 3.5 #plot size in inches
+    dy = 1.7 #plot size in inches
+    fig = plt.figure(figsize=(dx, dy)) #makes figure/canvas space
+    plot = fig.add_axes([0.5 / dx, 0.4 / dy, 2.75 / dx, 1.0 / dy])
+    # plot2 = fig.add_axes([0.5 / dx, 0.5 / dy, 2.75 / dx, 1.0 / dy])
+
+    file=open('analysis/TreeWidthData-ConnectedRandomCubic-0-10000-Vmin-20-Vmax-400-seed-42','r')
+    lines=file.readlines()
+    file.close()
+
+    TWvPW=dict()
+    TWvLGW=dict()
+    X=[]
+    TW=[]
+    PW=[]
+    LGW=[]
+    for l in lines:
+        data=l.replace('\n','').split('|')
+        n=int(data[1])
+        X.append(n)
+        TW.append(int(data[2]))
+        PW.append(int(data[3]))
+        LGW.append(int(data[4]))
+
+    for k in range(0,len(X)):
+        if X[k] not in TWvPW:
+            TWvPW[X[k]]=[]
+        if X[k] not in TWvLGW:
+            TWvLGW[X[k]]=[]
+        TWvPW[X[k]].append(PW[X[k]]/TW[X[k]])
+        TWvLGW[X[k]].append(LGW[X[k]]/TW[X[k]])
+
+    XR=[]
+    TWvPWy=[]
+    TWvLGWy=[]
+    keys=list(TWvPW.keys())
+    keys.sort()
+    for n in keys:
+        TWvPWy.append(numpy.average(TWvPW[n]))
+        TWvLGWy.append(numpy.average(TWvLGW[n]))
+        XR.append(n)
+
+    print(numpy.polyfit(X,TW,1))
+
+    plot.plot(X,TW,'.',markersize=2,alpha=.05,label='Treewidth')
+    plot.plot(X,PW,'.',markersize=2,alpha=.05,label='Pathwidth')
+    plot.plot(X,LGW,'.',markersize=2,alpha=.05,label='$tw(LG(G))$')
+    # plot.set_xscale("log")
+    # plot.set_yscale("log")
+    # plot.set_xticklabels([])
+    # plot.set_xticks([])
+    plot.set_title('Random Cubic Graph Width [a]')
+    plot.set_xlabel('$|N|$')
+    plot.set_ylabel('Width')
+    legn=plot.legend(markerscale=5)
+    for lh in legn.legendHandles:
+        try:
+            lh._legmarker.set_alpha(1)
+        except:
+            lh.set_alpha(1)
+
+    # plot2.plot(XR,TWvPWy)
+    # plot2.plot(XR,TWvLGWy)
+    # plot2.plot([], [])
+    # plot2.plot(X,numpy.array(PW)/numpy.array(TW),'.',markersize=2,alpha=.2,label=r'$\frac{Pathwidth}{Treewidth}$')
+    # plot2.plot(X,numpy.array(LGW)/numpy.array(TW),'.',markersize=2,alpha=.2,label=r'$\frac{tw(LG(G))}{Treewidth}$')
+    # plot2.set_title('Width Ratios [b]')
+    # plot2.set_xlabel('$|V|$')
+    # plot2.set_ylabel('Width Ratio')
+    # legn=plot2.legend(markerscale=5)
+    # for lh in legn.legendHandles:
+    #     lh._legmarker.set_alpha(1)
+
+    plot.set_xlim(20, 400)
+    # plot2.set_xlim(20, 400)
+    fig.savefig("figures/RcubicWidth_short.png",dpi=600)
 
 def GridGraphnxnMonteCarlo():
     plt.rc('xtick', labelsize=7)
@@ -614,7 +711,7 @@ def TreewidthCompare():
     plot2a = fig.add_axes([2.6 / dx, 0.5 / dy, 0.375 / dx, 1.25 / dy])
     plot2b = fig.add_axes([3.075 / dx, 0.5 / dy, 0.375 / dx, 1.25 / dy])
 
-    file=open('TreeWidthData','r')
+    file=open('analysis/TreeWidthData-ConnectedRandomCubic-0-10000-Vmin-20-Vmax-400-seed-42','r')
     lines=file.readlines()
     file.close()
 
@@ -623,11 +720,11 @@ def TreewidthCompare():
     RCLGW=[]
     for l in lines:
         data=l.replace('\n','').split('|')
-        RCedges.append(int(int(data[0])*3/2))
-        RCTW.append(int(data[1]))
-        RCLGW.append(int(data[3]))
+        RCedges.append(int(int(data[1])*3/2))
+        RCTW.append(int(data[2]))
+        RCLGW.append(int(data[4]))
 
-    file=open('PowerGridsREL99','r')
+    file=open('analysis/PowerGridsREL99','r')
     lines=file.readlines()
     file.close()
 
@@ -717,10 +814,16 @@ def TreewidthCompare():
 
     legn=plot1.legend(markerscale=2,fontsize=6)
     for lh in legn.legendHandles:
-        lh._legmarker.set_alpha(1)
+        try:
+            lh._legmarker.set_alpha(1)
+        except:
+            lh.set_alpha(1)
     legn=plot2.legend(markerscale=2,fontsize=6)
     for lh in legn.legendHandles:
-        lh._legmarker.set_alpha(1)
+        try:
+            lh._legmarker.set_alpha(1)
+        except:
+            lh.set_alpha(1)
 
     fig.savefig("figures/WidthCompare.png",dpi=600)
 
@@ -738,7 +841,7 @@ def PowerGridMonteCarlo():
 
     width=.25
     for ix,p in enumerate([.5,.9,.99]):
-        file=open('PowerGridsRELMC'+str(int(p*100)),'r')
+        file=open('analysis/PowerGridsRELMC'+str(int(p*100)),'r')
         lines=file.readlines()
         file.close()
 
@@ -769,3 +872,82 @@ def PowerGridMonteCarlo():
     plot.set_ylabel('Mc Trials')
     plot.legend()
     fig.savefig("figures/PowerGridMC.png",dpi=600)
+
+def PowerGridTable():
+    ### Test 5, Make Infrastructure Table
+    D=[list(range(0,14)) for i in range(0,55)]
+    print(D)
+    RELtime=numpy.zeros((55,3))
+    ECtime=numpy.zeros((55,3))
+    for ix,k in enumerate(['50','90','99']):
+        file=open('analysis/PowerGridsREL'+k,'r')
+        lines=file.readlines()
+        file.close()
+
+        for ix2,l in enumerate(lines):
+            data=l.replace('\n','').split('|')
+            D[ix2][0]=data[0]
+            D[ix2][1]=data[1]
+            D[ix2][2]=data[2]
+            D[ix2][7+ix]=data[3]
+            # D[ix2][6].append(data[4])
+            try:
+                RELtime[ix2,ix]=float(data[4])
+            except:
+                D[ix2][6]='NA'
+            D[ix2][3]=data[5]
+            D[ix2][4]=data[6]
+            D[ix2][11+ix]=data[8]
+            # D[ix2][10].append(data[9])
+            try:
+                ECtime[ix2,ix]=float(data[9])
+            except:
+                D[ix2][10]='NA'
+            D[ix2][5]=data[10]
+            # print(D)
+            # input()
+
+    # print(D)
+    # input()
+
+    for k in range(0,len(D)):
+        if D[k][6]!='NA':
+            D[k][6]=numpy.average(RELtime[k,:])
+        if D[k][10]!='NA':
+            D[k][10]=numpy.average(ECtime[k,:])
+
+    file=open('tables/PowerGridsRELTable.tex','w',newline='\n')
+    for k in range(0,len(D)):
+
+        data=D[k]
+        file.write(str(data[0])+' & ')
+        file.write(str(data[1])+' & ')
+        file.write(str(data[2])+' & ')
+        file.write(str(data[3])+' & ')
+        file.write(str(data[4])+' & ')
+        file.write(str(data[5])+' & ')
+
+        try:
+            file.write("{:4.6f}".format(float(data[6]))+' & ')
+            file.write("{:4.8f}".format(float(data[7]))+' & ')
+            file.write("{:4.8f}".format(float(data[8]))+' & ')
+            file.write("{:4.8f}".format(float(data[9]))+' & ')
+        except:
+            file.write('NA & ')
+            file.write('NA & ')
+            file.write('NA & ')
+            file.write('NA & ')
+
+        try:
+            file.write("{:4.6f}".format(float(data[10]))+' & ')
+            file.write("{:4.8f}".format(float(data[11]))+' & ')
+            file.write("{:4.8f}".format(float(data[12]))+' & ')
+            file.write("{:4.8f}".format(float(data[13]))+r' \tabularnewline'+'\n')
+        except:
+            file.write('NA & ')
+            file.write('NA & ')
+            file.write('NA & ')
+            file.write(r'NA \tabularnewline'+'\n')
+
+if __name__ == "__main__":
+    PowerGridTable()
